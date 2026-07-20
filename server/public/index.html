@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>블로그 관리</title>
+    <link rel="stylesheet" href="/style.css" />
+  </head>
+  <body>
+    <div id="banner" class="banner" hidden></div>
+
+    <header class="topbar">
+      <div class="brand">
+        <span class="logo">📝</span>
+        <span>블로그 관리</span>
+        <a id="blog-name" class="blog-name" target="_blank"></a>
+      </div>
+      <div class="actions">
+        <button id="btn-new" class="btn">＋ 새 글</button>
+        <button id="btn-import" class="btn btn-ghost" title="Blogger의 기존 글을 로컬로 가져오기">⬇ 원격 가져오기</button>
+        <button id="btn-dry" class="btn btn-ghost" title="실제 발행 없이 무엇이 올라갈지 미리보기">🧪 미리보기</button>
+        <button id="btn-publish-all" class="btn btn-primary">🚀 전체 발행</button>
+      </div>
+    </header>
+
+    <div class="body">
+      <aside class="sidebar">
+        <input id="search" class="search" placeholder="🔎 제목·라벨 검색" />
+        <div id="filters" class="filters"></div>
+        <ul id="post-list" class="post-list"></ul>
+      </aside>
+
+      <main class="editor">
+        <div class="empty" id="empty-state">
+          <div class="empty-inner">
+            <div class="empty-emoji">🗒️</div>
+            <p>왼쪽에서 글을 선택하거나<br /><b>＋ 새 글</b>로 시작하세요.</p>
+          </div>
+        </div>
+
+        <div class="editor-inner" id="editor-inner" hidden>
+          <div class="meta">
+            <input id="f-title" class="f-title" placeholder="제목을 입력하세요" />
+            <div class="meta-row">
+              <label class="fld">날짜<input id="f-date" type="date" /></label>
+              <label class="fld grow">라벨<input id="f-labels" placeholder="쉼표로 구분 (예: 개발, 일상)" /></label>
+              <label class="draft-toggle"><input id="f-draft" type="checkbox" /><span>초안</span></label>
+            </div>
+            <div class="meta-row2">
+              <span id="file-name" class="file-name"></span>
+              <span id="dirty" class="dirty"></span>
+              <a id="open-remote" class="open-remote" target="_blank" hidden>블로그에서 보기 ↗</a>
+            </div>
+          </div>
+
+          <div class="split">
+            <textarea id="f-content" class="content" placeholder="# 여기에 마크다운으로 작성하세요" spellcheck="false"></textarea>
+            <div id="preview" class="preview markdown-body"></div>
+          </div>
+
+          <div class="editor-actions">
+            <button id="btn-save" class="btn">💾 저장</button>
+            <button id="btn-publish" class="btn btn-primary">🚀 발행</button>
+            <span class="spacer"></span>
+            <button id="btn-delete" class="btn btn-danger">🗑 삭제</button>
+            <span id="status-msg" class="status-msg"></span>
+          </div>
+        </div>
+      </main>
+    </div>
+
+    <div id="toast" class="toast" hidden></div>
+    <script type="module" src="/app.js"></script>
+  </body>
+</html>

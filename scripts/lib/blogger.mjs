@@ -43,9 +43,9 @@ export function createClient(accessToken, blogId) {
         headers,
         body: body ? JSON.stringify(body) : undefined,
       });
-      if (res.ok) return res.json();
-
       const text = await res.text();
+      if (res.ok) return text ? JSON.parse(text) : {};
+
       const retryable =
         res.status === 429 ||
         (res.status === 403 && /rateLimitExceeded|userRateLimitExceeded/i.test(text));
@@ -58,6 +58,13 @@ export function createClient(accessToken, blogId) {
   }
 
   return {
+    // 블로그 정보 조회
+    blogInfo: () => call('GET', ''),
+    // 원격 글 목록 (초안 포함, 소유자 뷰)
+    list: ({ maxResults = 100, pageToken, status } = {}) =>
+      call('GET', '/posts', { query: { maxResults, pageToken, status, view: 'ADMIN', fetchBodies: true } }),
+    // 단건 조회
+    get: (postId) => call('GET', `/posts/${postId}`),
     // 신규 글 생성. isDraft=true 면 초안으로.
     insert: (post, { isDraft = false } = {}) =>
       call('POST', '/posts', { query: { isDraft }, body: post }),
@@ -67,5 +74,7 @@ export function createClient(accessToken, blogId) {
     publish: (postId) => call('POST', `/posts/${postId}/publish`),
     // 공개된 글을 다시 초안으로 되돌림.
     revert: (postId) => call('POST', `/posts/${postId}/revert`),
+    // 원격 글 삭제.
+    remove: (postId) => call('DELETE', `/posts/${postId}`),
   };
 }
