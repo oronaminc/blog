@@ -1,0 +1,108 @@
+# 초기 설정 가이드 (인증정보 발급)
+
+이 문서는 딱 한 번만 하면 됩니다. 순서대로 따라오세요.
+
+---
+
+## 1. Google Cloud 프로젝트 만들기
+
+1. https://console.cloud.google.com/ 접속 (Blogger 를 만든 그 구글 계정으로 로그인)
+2. 상단 프로젝트 선택 → **새 프로젝트** → 이름 아무거나(예: `blog-publish`) → 만들기
+
+## 2. Blogger API 켜기
+
+1. 좌측 메뉴 **API 및 서비스 → 라이브러리**
+2. `Blogger API v3` 검색 → 클릭 → **사용 설정(Enable)**
+
+## 3. OAuth 동의 화면 설정
+
+1. **API 및 서비스 → OAuth 동의 화면**
+2. User Type: **외부(External)** → 만들기
+3. 앱 이름 아무거나, 사용자 지원 이메일 = 본인 이메일, 개발자 연락처 = 본인 이메일 → 저장 후 계속
+4. 범위(Scopes) 단계는 그냥 **저장 후 계속**
+5. 테스트 사용자 단계에서 **본인 구글 이메일을 테스트 사용자로 추가** → 저장 후 계속
+
+> ⚠️ **중요 (7일 만료 문제):**
+> 앱이 **테스트(Testing)** 상태이면 리프레시 토큰이 **7일 뒤 만료**됩니다.
+> 자동 발행이 계속 돌게 하려면, OAuth 동의 화면에서 게시 상태를
+> **"프로덕션(In production)"** 으로 **게시(PUBLISH APP)** 하세요.
+> (개인용이라 Google 심사는 보통 필요 없고, "확인되지 않은 앱" 경고만 뜹니다 → 계속 진행 가능)
+
+## 4. OAuth 클라이언트 ID 만들기
+
+1. **API 및 서비스 → 사용자 인증 정보(Credentials)**
+2. **사용자 인증 정보 만들기 → OAuth 클라이언트 ID**
+3. 애플리케이션 유형: **데스크톱 앱(Desktop app)** ← 반드시 이걸로
+4. 만들기 → 팝업에 뜨는 **클라이언트 ID** 와 **클라이언트 보안 비밀(Secret)** 을 복사
+
+## 5. .env 채우기
+
+프로젝트 폴더의 `.env` 파일에 방금 복사한 값을 넣습니다:
+
+```
+GOOGLE_CLIENT_ID=여기에_클라이언트_ID
+GOOGLE_CLIENT_SECRET=여기에_시크릿
+```
+
+## 6. 리프레시 토큰 + BLOG_ID 발급
+
+터미널에서:
+
+```bash
+npm install
+npm run get-token
+```
+
+- 브라우저가 열리면 본인 구글 계정으로 로그인 → 권한 허용
+  - "확인되지 않은 앱" 경고가 나오면 **고급 → (안전하지 않음) 이동** 클릭
+- 터미널에 `GOOGLE_REFRESH_TOKEN=...` 과 `BLOG_ID=...` 후보가 출력됩니다.
+- 이 두 값을 `.env` 에 마저 채웁니다.
+
+이제 `.env` 4개 값이 모두 채워졌습니다:
+
+```
+BLOG_ID=...
+GOOGLE_CLIENT_ID=...
+GOOGLE_CLIENT_SECRET=...
+GOOGLE_REFRESH_TOKEN=...
+```
+
+## 7. 로컬 테스트
+
+```bash
+npm run publish:dry   # 실제 발행 없이 무엇이 올라갈지 미리보기
+npm run publish       # 실제 발행 (posts/ 의 글을 Blogger 로)
+```
+
+## 8. GitHub Actions(자동 발행) 연결
+
+저장소 **Settings → Secrets and variables → Actions → New repository secret** 에서
+아래 4개를 `.env` 와 똑같은 값으로 등록:
+
+- `BLOG_ID`
+- `GOOGLE_CLIENT_ID`
+- `GOOGLE_CLIENT_SECRET`
+- `GOOGLE_REFRESH_TOKEN`
+
+등록 후에는 `posts/` 에 글을 추가하고 `git push` 하면 자동 발행됩니다.
+
+---
+
+## 글 쓰는 법
+
+`posts/` 폴더에 `.md` 파일을 만들고 상단에 frontmatter 를 넣습니다:
+
+```markdown
+---
+title: "글 제목"
+labels: [태그1, 태그2]
+draft: false
+date: 2026-07-21
+---
+
+본문을 **마크다운**으로 작성합니다.
+```
+
+- `draft: true` → Blogger 에 초안으로만 올라감 (검토용)
+- `draft: false` → 정식 발행
+- 같은 파일을 수정 후 push 하면 **덮어쓰기(업데이트)** 됩니다 (중복 발행 안 됨)

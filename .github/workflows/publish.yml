@@ -1,0 +1,52 @@
+name: Publish to Blogger
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'posts/**'
+      - 'scripts/**'
+      - '.github/workflows/publish.yml'
+  workflow_dispatch:
+
+# 상태 파일(.publish-state.json)을 다시 커밋하기 위해 write 권한 필요
+permissions:
+  contents: write
+
+# 동시에 여러 발행이 겹치지 않도록
+concurrency:
+  group: blogger-publish
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - run: npm ci
+
+      - name: Publish posts
+        run: npm run publish
+        env:
+          BLOG_ID: ${{ secrets.BLOG_ID }}
+          GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
+          GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
+          GOOGLE_REFRESH_TOKEN: ${{ secrets.GOOGLE_REFRESH_TOKEN }}
+
+      - name: Commit publish state
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add .publish-state.json
+          if git diff --staged --quiet; then
+            echo "상태 변경 없음"
+          else
+            git commit -m "chore: update publish state [skip ci]"
+            git push
+          fi

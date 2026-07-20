@@ -1,0 +1,20 @@
+{
+  "name": "blog-publisher",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Blogger(Blogspot) 마크다운 자동 발행 시스템",
+  "scripts": {
+    "get-token": "node scripts/get-token.mjs",
+    "publish": "node scripts/publish.mjs",
+    "publish:dry": "node scripts/publish.mjs --dry-run"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "dotenv": "^16.4.7",
+    "gray-matter": "^4.0.3",
+    "markdown-it": "^14.1.0"
+  }
+}
