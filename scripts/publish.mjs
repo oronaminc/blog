@@ -86,8 +86,9 @@ async function main() {
       console.log(`✅ 발행: ${file} → ${result.url || result.id}`);
     } else {
       const result = await api.update(prev.postId, postBody);
-      // 이전엔 초안이었는데 이번에 draft:false 로 바뀜 → 정식 발행
-      if (prev.isDraft && !isDraft) await api.publish(prev.postId);
+      // 초안 상태 전환 처리
+      if (prev.isDraft && !isDraft) await api.publish(prev.postId); // 초안 → 공개
+      else if (!prev.isDraft && isDraft) await api.revert(prev.postId); // 공개 → 초안
       state[file] = { postId: prev.postId, url: result.url || prev.url, hash, isDraft };
       updated++;
       console.log(`♻️  업데이트: ${file} → ${result.url || result.id}`);

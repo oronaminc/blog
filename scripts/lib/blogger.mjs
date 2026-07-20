@@ -27,20 +27,34 @@ export function createClient(accessToken, blogId) {
     'Content-Type': 'application/json',
   };
 
+  const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+
   async function call(method, path, { query, body } = {}) {
     const url = new URL(`${API}/blogs/${blogId}${path}`);
     for (const [k, v] of Object.entries(query || {})) {
       if (v !== undefined) url.searchParams.set(k, String(v));
     }
-    const res = await fetch(url, {
-      method,
-      headers,
-      body: body ? JSON.stringify(body) : undefined,
-    });
-    if (!res.ok) {
-      throw new Error(`Blogger API ${method} ${path} 실패 (${res.status}): ${await res.text()}`);
+
+    // Blogger 는 레이트리밋을 429 뿐 아니라 403(rateLimitExceeded) 로도 반환하므로
+    // 두 경우 모두 지수 백오프로 재시도한다.
+    for (let attempt = 0; ; attempt++) {
+      const res = await fetch(url, {
+        method,
+        headers,
+        body: body ? JSON.stringify(body) : undefined,
+      });
+      if (res.ok) return res.json();
+
+      const text = await res.text();
+      const retryable =
+        res.status === 429 ||
+        (res.status === 403 && /rateLimitExceeded|userRateLimitExceeded/i.test(text));
+      if (retryable && attempt < 4) {
+        await sleep(1000 * 2 ** attempt);
+        continue;
+      }
+      throw new Error(`Blogger API ${method} ${path} 실패 (${res.status}): ${text}`);
     }
-    return res.json();
   }
 
   return {
@@ -51,5 +65,7 @@ export function createClient(accessToken, blogId) {
     update: (postId, post) => call('PUT', `/posts/${postId}`, { body: post }),
     // 초안을 정식 발행.
     publish: (postId) => call('POST', `/posts/${postId}/publish`),
+    // 공개된 글을 다시 초안으로 되돌림.
+    revert: (postId) => call('POST', `/posts/${postId}/revert`),
   };
 }

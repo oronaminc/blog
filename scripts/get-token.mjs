@@ -24,7 +24,7 @@ const authUrl =
     response_type: 'code',
     scope: SCOPE,
     access_type: 'offline',
-    prompt: 'consent',
+    prompt: 'select_account consent', // 계정 선택 창을 항상 표시
   });
 
 function openBrowser(url) {
