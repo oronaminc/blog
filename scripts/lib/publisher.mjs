@@ -24,8 +24,9 @@ function hashOf(str) {
 
 // Blogger 는 이미지를 호스팅하지 않으므로, 발행 HTML 의 상대경로 assets/ 이미지를
 // GitHub 에 호스팅된 절대 URL 로 바꾼다. (로컬 프리뷰는 상대경로 그대로 → 서버가 서빙)
+// jsDelivr CDN (raw.githubusercontent 은 CDN 아님 + 시간당 레이트리밋). @main = main 브랜치
 const ASSET_BASE = (
-  process.env.ASSET_BASE_URL || 'https://raw.githubusercontent.com/oronaminc/blog/main'
+  process.env.ASSET_BASE_URL || 'https://cdn.jsdelivr.net/gh/oronaminc/blog@main'
 ).replace(/\/$/, '');
 
 export function absolutizeAssets(html) {

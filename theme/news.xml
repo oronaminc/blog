@@ -1,0 +1,168 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE html>
+<html b:version='2' class='v2' expr:dir='data:blog.languageDirection' lang='ko' xmlns='http://www.w3.org/1999/xhtml' xmlns:b='http://www.google.com/2005/gml/b' xmlns:data='http://www.google.com/2005/gml/data' xmlns:expr='http://www.google.com/2005/gml/expr'>
+<head>
+  <meta charset='UTF-8'/>
+  <meta content='width=device-width, initial-scale=1' name='viewport'/>
+  <title><data:blog.pageTitle/></title>
+  <b:include data='blog' name='all-head-content'/>
+  <b:skin><![CDATA[/*
+<Variable name="keycolor" description="Accent color" type="color" default="#2563eb" value="#2563eb"/>
+<Group description="Page">
+  <Variable name="body.background" description="Background" type="color" default="#ffffff" value="#ffffff"/>
+  <Variable name="body.text.color" description="Text color" type="color" default="#1f2328" value="#1f2328"/>
+  <Variable name="body.muted.color" description="Muted text" type="color" default="#6b7280" value="#6b7280"/>
+  <Variable name="surface.color" description="Card surface" type="color" default="#ffffff" value="#ffffff"/>
+  <Variable name="border.color" description="Borders" type="color" default="#e5e7eb" value="#e5e7eb"/>
+</Group>
+*/
+:root{
+  --key:$(keycolor); --bg:$(body.background); --fg:$(body.text.color);
+  --muted:$(body.muted.color); --surface:$(surface.color); --border:$(border.color);
+  --radius:14px; --wrap:720px;
+  --sans:"Pretendard","Apple SD Gothic Neo","Malgun Gothic","Noto Sans KR",system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+}
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--sans);font-size:1.0625rem;line-height:1.75;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+img{max-width:100%;height:auto;display:block}
+a{color:var(--key);text-decoration:none}
+a:hover{text-decoration:underline}
+.wrap{width:100%;max-width:var(--wrap);margin-inline:auto;padding-inline:20px}
+.site-header{position:sticky;top:0;z-index:10;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:saturate(180%) blur(10px);border-bottom:1px solid var(--border)}
+.site-header .wrap{display:flex;align-items:center;justify-content:space-between;min-height:60px}
+.brand{font-weight:800;font-size:1.15rem;letter-spacing:-.02em;color:var(--fg)}
+.brand:hover{text-decoration:none;color:var(--key)}
+.tagline{color:var(--muted);font-size:.85rem}
+main{padding-block:40px 64px}
+.post-list{display:flex;flex-direction:column;gap:14px}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:22px 24px;transition:transform .15s ease,box-shadow .15s ease,border-color .15s ease}
+.card:hover{transform:translateY(-2px);border-color:color-mix(in srgb,var(--key) 40%,var(--border));box-shadow:0 8px 24px -12px rgba(0,0,0,.25)}
+.card h2{margin:0 0 6px;font-size:1.4rem;line-height:1.3;letter-spacing:-.02em}
+.card h2 a{color:var(--fg)}
+.card h2 a:hover{color:var(--key);text-decoration:none}
+.excerpt{color:var(--muted);margin:8px 0 0;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.excerpt :is(img,figure,iframe,h1,h2,h3){display:none}
+.meta{display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center;color:var(--muted);font-size:.82rem}
+.labels{display:flex;flex-wrap:wrap;gap:6px;margin-top:14px}
+.chip{font-size:.75rem;padding:3px 10px;border-radius:999px;background:color-mix(in srgb,var(--key) 10%,transparent);color:var(--key);border:1px solid color-mix(in srgb,var(--key) 22%,transparent)}
+.chip:hover{text-decoration:none;background:color-mix(in srgb,var(--key) 18%,transparent)}
+.post-header h1{font-size:2rem;line-height:1.2;letter-spacing:-.025em;margin:0 0 12px}
+.post-body{font-size:1.09rem;line-height:1.85;word-break:keep-all}
+.post-body>*+*{margin-top:1.15em}
+.post-body h2{font-size:1.5rem;line-height:1.3;letter-spacing:-.02em;margin-top:1.8em}
+.post-body h3{font-size:1.22rem;margin-top:1.6em}
+.post-body a{text-decoration:underline;text-underline-offset:2px}
+.post-body img{border-radius:10px;margin-inline:auto}
+.post-body blockquote{margin:1.4em 0;padding:.2em 1.1em;border-left:4px solid var(--key);color:var(--muted);font-style:italic}
+.post-body pre{background:#0f172a;color:#e2e8f0;padding:16px 18px;border-radius:12px;overflow-x:auto;font-size:.9rem;line-height:1.6}
+.post-body :not(pre)>code{background:color-mix(in srgb,var(--fg) 8%,transparent);padding:.15em .4em;border-radius:6px;font-size:.9em}
+.post-body hr{border:0;border-top:1px solid var(--border);margin:2em 0}
+.post-body table{width:100%;border-collapse:collapse;display:block;overflow-x:auto}
+.post-body th,.post-body td{border:1px solid var(--border);padding:8px 12px;text-align:left}
+.pager{display:flex;justify-content:space-between;gap:12px;margin-top:36px}
+.pager a{padding:10px 18px;border:1px solid var(--border);border-radius:999px;color:var(--fg);font-weight:600;font-size:.9rem}
+.pager a:hover{text-decoration:none;border-color:var(--key);color:var(--key)}
+.back{display:inline-block;margin-top:40px;color:var(--muted);font-size:.9rem}
+.site-footer{border-top:1px solid var(--border);color:var(--muted);font-size:.85rem;padding-block:28px;text-align:center}
+@media (prefers-color-scheme:dark){
+  :root{--bg:#0b0f17;--fg:#e6e8eb;--muted:#9aa4b2;--surface:#121826;--border:#232b3a}
+  .post-body pre{background:#0a0f1a}
+}
+@media (max-width:600px){
+  body{font-size:1rem}
+  .post-header h1{font-size:1.6rem}
+  .card{padding:18px 18px}
+  main{padding-block:28px 48px}
+}
+]]></b:skin>
+</head>
+<body>
+
+  <header class='site-header'>
+    <div class='wrap'>
+      <a class='brand' expr:href='data:blog.homepageUrl'><data:blog.title/></a>
+      <b:section class='header-widgets' id='header' maxwidgets='1' showaddelement='no'>
+        <b:widget id='Header1' locked='true' title='' type='Header' version='2'>
+          <b:includable id='main'>
+            <b:if cond='data:description'>
+              <span class='tagline'><data:description/></span>
+            </b:if>
+          </b:includable>
+        </b:widget>
+      </b:section>
+    </div>
+  </header>
+
+  <main>
+    <div class='wrap'>
+      <b:section class='main' id='main' showaddelement='no'>
+        <b:widget id='Blog1' locked='true' title='' type='Blog' version='2'>
+          <b:includable id='main'>
+            <b:if cond='data:view.isSingleItem'>
+              <b:loop values='data:posts' var='post'>
+                <b:include data='post' name='singlePost'/>
+              </b:loop>
+            <b:else/>
+              <div class='post-list'>
+                <b:loop values='data:posts' var='post'>
+                  <b:include data='post' name='postCard'/>
+                </b:loop>
+              </div>
+              <nav class='pager'>
+                <b:if cond='data:newerPageUrl'>
+                  <a class='newer' expr:href='data:newerPageUrl'>&#8592; 최신 글</a>
+                <b:else/>
+                  <span></span>
+                </b:if>
+                <b:if cond='data:olderPageUrl'>
+                  <a class='older' expr:href='data:olderPageUrl'>지난 글 &#8594;</a>
+                </b:if>
+              </nav>
+            </b:if>
+          </b:includable>
+
+          <b:includable id='postCard' var='post'>
+            <article class='card'>
+              <div class='meta'>
+                <b:if cond='data:post.author'><span><data:post.author/></span></b:if>
+                <span><data:post.timestamp/></span>
+              </div>
+              <h2><a expr:href='data:post.url'><data:post.title/></a></h2>
+              <div class='excerpt'><data:post.body/></div>
+            </article>
+          </b:includable>
+
+          <b:includable id='singlePost' var='post'>
+            <article class='post'>
+              <header class='post-header'>
+                <div class='meta'>
+                  <b:if cond='data:post.author'><span><data:post.author/></span></b:if>
+                  <span><data:post.timestamp/></span>
+                </div>
+                <h1><data:post.title/></h1>
+              </header>
+              <div class='post-body'><data:post.body/></div>
+              <b:if cond='data:post.labels'>
+                <div class='labels'>
+                  <b:loop values='data:post.labels' var='label'>
+                    <a class='chip' expr:href='data:label.url'><data:label.name/></a>
+                  </b:loop>
+                </div>
+              </b:if>
+              <a class='back' expr:href='data:blog.homepageUrl'>&#8592; 목록으로</a>
+            </article>
+          </b:includable>
+        </b:widget>
+      </b:section>
+    </div>
+  </main>
+
+  <footer class='site-footer'>
+    <div class='wrap'>
+      &#169; <data:blog.title/> &#183; Powered by Blogger
+    </div>
+  </footer>
+
+</body>
+</html>

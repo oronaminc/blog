@@ -11,30 +11,44 @@
 
     <header class="topbar">
       <div class="brand">
-        <span class="logo">📝</span>
-        <span>블로그 관리</span>
-        <a id="blog-name" class="blog-name" target="_blank"></a>
+        <span class="logo">✶</span>
+        <span class="brand-name">블로그 관리</span>
+        <a id="blog-name" class="blog-name" target="_blank" rel="noopener"></a>
       </div>
       <div class="actions">
+        <button id="btn-drift" class="btn btn-ghost" title="Blogger에서 직접 수정된 글이 있는지 확인">↺ 원격 확인</button>
+        <button id="btn-import" class="btn btn-ghost" title="Blogger의 기존 글을 로컬로 가져오기">⬇ 가져오기</button>
+        <button id="btn-dry" class="btn btn-ghost" title="실제 발행 없이 미리보기">🧪 미리보기</button>
         <button id="btn-new" class="btn">＋ 새 글</button>
-        <button id="btn-import" class="btn btn-ghost" title="Blogger의 기존 글을 로컬로 가져오기">⬇ 원격 가져오기</button>
-        <button id="btn-dry" class="btn btn-ghost" title="실제 발행 없이 무엇이 올라갈지 미리보기">🧪 미리보기</button>
         <button id="btn-publish-all" class="btn btn-primary">🚀 전체 발행</button>
       </div>
     </header>
 
     <div class="body">
       <aside class="sidebar">
-        <input id="search" class="search" placeholder="🔎 제목·라벨 검색" />
+        <div class="sidebar-head">
+          <input id="search" class="search" placeholder="제목·라벨 검색" />
+        </div>
         <div id="filters" class="filters"></div>
+
+        <div id="bulkbar" class="bulkbar" hidden>
+          <span id="bulk-count" class="bulk-count">0개 선택</span>
+          <div class="bulk-actions">
+            <button id="bulk-publish" class="btn btn-sm btn-primary">발행</button>
+            <button id="bulk-delete" class="btn btn-sm btn-danger">삭제</button>
+            <button id="bulk-clear" class="btn btn-sm btn-ghost">취소</button>
+          </div>
+        </div>
+
         <ul id="post-list" class="post-list"></ul>
       </aside>
 
       <main class="editor">
         <div class="empty" id="empty-state">
           <div class="empty-inner">
-            <div class="empty-emoji">🗒️</div>
-            <p>왼쪽에서 글을 선택하거나<br /><b>＋ 새 글</b>로 시작하세요.</p>
+            <div class="empty-mark">✶</div>
+            <p class="empty-title">글을 선택하거나 새로 시작하세요</p>
+            <button class="btn btn-primary" onclick="document.getElementById('btn-new').click()">＋ 새 글 쓰기</button>
           </div>
         </div>
 
@@ -43,27 +57,53 @@
             <input id="f-title" class="f-title" placeholder="제목을 입력하세요" />
             <div class="meta-row">
               <label class="fld">날짜<input id="f-date" type="date" /></label>
-              <label class="fld grow">라벨<input id="f-labels" placeholder="쉼표로 구분 (예: 개발, 일상)" /></label>
-              <label class="draft-toggle"><input id="f-draft" type="checkbox" /><span>초안</span></label>
+              <div class="fld grow labels-field">
+                라벨
+                <input id="f-labels" autocomplete="off" placeholder="쉼표로 구분 (예: 개발, 일상)" />
+                <div id="label-suggest" class="label-suggest" hidden></div>
+              </div>
+              <label class="draft-toggle" title="체크 시 Blogger에 초안으로만 올라갑니다">
+                <input id="f-draft" type="checkbox" />
+                <span class="switch"></span>
+                <span>초안</span>
+              </label>
             </div>
             <div class="meta-row2">
               <span id="file-name" class="file-name"></span>
               <span id="dirty" class="dirty"></span>
-              <a id="open-remote" class="open-remote" target="_blank" hidden>블로그에서 보기 ↗</a>
+              <a id="open-remote" class="open-remote" target="_blank" rel="noopener" hidden>블로그에서 보기 ↗</a>
             </div>
           </div>
 
+          <div class="toolbar" id="toolbar">
+            <button class="tb" data-md="bold" title="굵게 (⌘B)"><b>B</b></button>
+            <button class="tb" data-md="italic" title="기울임 (⌘I)"><i>I</i></button>
+            <button class="tb" data-md="strike" title="취소선"><s>S</s></button>
+            <span class="tb-sep"></span>
+            <button class="tb" data-md="h2" title="제목">H2</button>
+            <button class="tb" data-md="quote" title="인용">❝</button>
+            <button class="tb" data-md="ul" title="목록">☰</button>
+            <button class="tb" data-md="code" title="코드">&lt;/&gt;</button>
+            <button class="tb" data-md="link" title="링크 (⌘K)">🔗</button>
+            <span class="tb-sep"></span>
+            <button class="tb" data-md="image" title="이미지 업로드">🖼</button>
+            <span class="tb-hint">이미지는 드래그 또는 붙여넣기(⌘V)도 됩니다</span>
+          </div>
+
           <div class="split">
-            <textarea id="f-content" class="content" placeholder="# 여기에 마크다운으로 작성하세요" spellcheck="false"></textarea>
+            <div class="content-wrap" id="content-wrap">
+              <textarea id="f-content" class="content" placeholder="# 여기에 마크다운으로 작성하세요" spellcheck="false"></textarea>
+              <div id="drop-hint" class="drop-hint" hidden>이미지를 놓으세요</div>
+            </div>
             <div id="preview" class="preview markdown-body"></div>
           </div>
 
           <div class="editor-actions">
-            <button id="btn-save" class="btn">💾 저장</button>
-            <button id="btn-publish" class="btn btn-primary">🚀 발행</button>
+            <button id="btn-save" class="btn">저장</button>
+            <button id="btn-publish" class="btn btn-primary">발행</button>
             <span class="spacer"></span>
-            <button id="btn-delete" class="btn btn-danger">🗑 삭제</button>
             <span id="status-msg" class="status-msg"></span>
+            <button id="btn-delete" class="btn btn-danger">삭제</button>
           </div>
         </div>
       </main>

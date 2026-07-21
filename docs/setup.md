@@ -129,4 +129,20 @@ npm run web       # http://localhost:4599 접속
 
 > 이 서버는 파일 쓰기·발행 권한과 OAuth 토큰을 다루므로 **`127.0.0.1`(로컬 전용)** 로만 열립니다.
 >
-> ⚠️ **이미지**: Blogger API 는 이미지를 호스팅하지 않습니다. 마크다운의 로컬 이미지 경로(`./img.png`)는 블로그에서 깨집니다. 이미지는 **절대 URL**(GitHub raw, CDN 등)로 넣으세요.
+> ⚠️ **이미지**: Blogger API 는 이미지를 호스팅하지 않습니다. CMS에서 이미지를 드래그/붙여넣기하면 `assets/`에 저장되고, 발행 시 자동으로 **jsDelivr CDN 절대 URL**로 변환됩니다. 단, 이미지가 블로그에 보이려면 `assets/`를 **git push** 해야 합니다.
+
+---
+
+## 공개 블로그 테마 적용
+
+`theme/news.xml` — 반응형·한글 타이포·다크모드 지원 커스텀 Blogger 테마.
+(Blogger API 로는 테마를 못 바꿔서, 대시보드에서 직접 업로드합니다.)
+
+1. https://www.blogger.com → 해당 블로그 선택
+2. 좌측 **테마(Theme)** 메뉴
+3. **Customize** 버튼 옆 **▾(아래 화살표)** 클릭 → **백업/복원(Backup/Restore)**
+4. **먼저 현재 테마 백업(Download)** 을 받아두세요 (문제 시 즉시 복구용)
+5. **업로드(Upload)** → `theme/news.xml` 선택 → 저장
+6. 색상은 **테마 → Customize → 고급(Advanced)** 에서 `keycolor` 로 변경 가능
+
+> 업로드 전 로컬 검증: `xmllint --noout theme/news.xml` (well-formed 여부가 Blogger의 첫 거부 관문)

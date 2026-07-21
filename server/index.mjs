@@ -166,6 +166,10 @@ app.post(
     const { filename = 'image.png', dataUrl = '' } = req.body || {};
     const m = dataUrl.match(/^data:(.+?);base64,(.*)$/);
     if (!m) return res.status(400).json({ error: '이미지 데이터가 올바르지 않습니다.' });
+    // SVG 등 스크립트 내장 가능 형식 차단(로컬 앱이라도 안전하게)
+    if (!/^image\/(png|jpe?g|gif|webp|avif)$/i.test(m[1])) {
+      return res.status(400).json({ error: `지원하지 않는 이미지 형식: ${m[1]}` });
+    }
     const buffer = Buffer.from(m[2], 'base64');
     const name = await saveAsset(filename, buffer);
     const rel = `assets/${name}`;
@@ -249,7 +253,7 @@ app.post(
         draft: isDraft,
         date: dateStr,
       };
-      const file = makeFilename(p.title || 'post', dateStr);
+      const file = uniqueFilename(p.title || 'post', dateStr);
       await writePost(file, { data: fmData, content: md });
       // 재발행 시 중복/덮어쓰기 방지: 현재 렌더 해시로 in-sync 표시
       const b = buildPost(fmData, md);
