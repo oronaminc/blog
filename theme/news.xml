@@ -6,6 +6,27 @@
     <title><data:view.title.escaped/></title>
     <b:include data='blog' name='all-head-content'/>
 
+    <!-- SEO: all-head-content 가 title·meta description·canonical·og:* 는 이미 출력. 아래는 보완만. -->
+    <meta content='summary_large_image' name='twitter:card'/>
+    <b:if cond='data:view.isSingleItem and data:blog.postImageUrl'>
+      <meta expr:content='data:blog.postImageUrl' name='twitter:image'/>
+    </b:if>
+    <link crossorigin='anonymous' href='https://pagead2.googlesyndication.com' rel='preconnect'/>
+    <link href='https://www.googletagmanager.com' rel='preconnect'/>
+    <meta content='#2563eb' name='theme-color'/>
+
+    <!-- 홈페이지: WebSite(사이트링크 검색창) + Organization 구조화 데이터 -->
+    <b:if cond='data:view.isHomepage'>
+      <script type='application/ld+json'>{
+  "@context": "https://schema.org",
+  "@graph": [
+    { "@type": "WebSite", "name": "<data:blog.title.jsonEscaped/>", "url": "<data:blog.homepageUrl/>", "inLanguage": "ko-KR",
+      "potentialAction": { "@type": "SearchAction", "target": { "@type": "EntryPoint", "urlTemplate": "<data:blog.homepageUrl/>search?q={search_term_string}" }, "query-input": "required name=search_term_string" } },
+    { "@type": "Organization", "name": "<data:blog.title.jsonEscaped/>", "url": "<data:blog.homepageUrl/>", "logo": { "@type": "ImageObject", "url": "https://trend-cracker.blogspot.com/logo.png" } }
+  ]
+}</script>
+    </b:if>
+
     <b:skin version='1.3.3'><![CDATA[/*! normalize.css v3.0.1 | MIT License | git.io/normalize */html{font-family:sans-serif;-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%}body{margin:0}article,aside,details,figcaption,figure,footer,header,hgroup,main,nav,section,summary{display:block}audio,canvas,progress,video{display:inline-block;vertical-align:baseline}audio:not([controls]){display:none;height:0}[hidden],template{display:none}a{background:transparent}a:active,a:hover{outline:0}abbr[title]{border-bottom:1px dotted}b,strong{font-weight:bold}dfn{font-style:italic}h1{font-size:2em;margin:.67em 0}mark{background:#ff0;color:#000}small{font-size:80%}sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline}sup{top:-0.5em}sub{bottom:-0.25em}img{border:0}svg:not(:root){overflow:hidden}figure{margin:1em 40px}hr{-moz-box-sizing:content-box;box-sizing:content-box;height:0}pre{overflow:auto}code,kbd,pre,samp{font-family:monospace,monospace;font-size:1em}button,input,optgroup,select,textarea{color:inherit;font:inherit;margin:0}button{overflow:visible}button,select{text-transform:none}button,html input[type="button"],input[type="reset"],input[type="submit"]{-webkit-appearance:button;cursor:pointer}button[disabled],html input[disabled]{cursor:default}button::-moz-focus-inner,input::-moz-focus-inner{border:0;padding:0}input{line-height:normal}input[type="checkbox"],input[type="radio"]{box-sizing:border-box;padding:0}input[type="number"]::-webkit-inner-spin-button,input[type="number"]::-webkit-outer-spin-button{height:auto}input[type="search"]{-webkit-appearance:textfield;-moz-box-sizing:content-box;-webkit-box-sizing:content-box;box-sizing:content-box}input[type="search"]::-webkit-search-cancel-button,input[type="search"]::-webkit-search-decoration{-webkit-appearance:none}fieldset{border:1px solid #c0c0c0;margin:0 2px;padding:.35em .625em .75em}legend{border:0;padding:0}textarea{overflow:auto}optgroup{font-weight:bold}table{border-collapse:collapse;border-spacing:0}td,th{padding:0}
 /*
 <!-- Constants -->
@@ -716,6 +737,23 @@ border-bottom:1px solid #e4e4e7;
 margin-bottom:20px;
 padding-bottom:6px
 }
+.breadcrumbs{
+font-size:13px;
+color:$(posts.byline.color);
+margin:0 0 12px
+}
+.breadcrumbs a{
+color:$(posts.byline.color)
+}
+.breadcrumbs a:hover{
+color:$(body.link.color)
+}
+time.byline{
+font-style:normal
+}
+.ad-slot{
+overflow:hidden
+}
 #page_body .FeaturedPost,.Blog .blog-posts .post-outer-container{
 background:$(posts.background.color);
 min-height:40px;
@@ -964,9 +1002,15 @@ color:$(attribution.link.color)
                   <b:widget-setting name='showAuthorProfile'>false</b:widget-setting>
                 </b:widget-settings>
                 <b:includable id='main' var='this'>
-                  <b:loop values='data:posts' var='post'>
+                  <b:loop values='data:posts' var='post' index='i'>
                     <b:include cond='data:view.isMultipleItems' data='post' name='postCard'/>
                     <b:include cond='data:view.isSingleItem' data='post' name='singlePost'/>
+                    <b:if cond='data:view.isMultipleItems and data:i == 2 and data:blog.adsenseClientId'>
+                      <div class='ad-slot ad-infeed' style='text-align:center;margin:16px 0;min-height:280px'>
+                        <ins class='adsbygoogle' data-ad-format='auto' data-full-width-responsive='true' data-ad-slot='REPLACE_SLOT_ID' expr:data-ad-client='data:blog.adsenseClientId' style='display:block'/>
+                        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+                      </div>
+                    </b:if>
                   </b:loop>
                   <b:include cond='data:view.isMultipleItems' name='pager'/>
                 </b:includable>
@@ -977,7 +1021,7 @@ color:$(attribution.link.color)
                         <a expr:href='data:post.url'><data:post.title/></a>
                       </h3>
                       <div class='post-header'>
-                        <span class='byline'><data:post.timestamp/></span>
+                        <time class='byline' expr:datetime='data:post.timestampISO8601'><data:post.timestamp/></time>
                       </div>
                       <div class='post-body post-snippet'>
                         <data:post.body/>
@@ -993,13 +1037,29 @@ color:$(attribution.link.color)
                 <b:includable id='singlePost' var='post'>
                   <article class='post-outer-container'>
                     <div class='post'>
+                      <nav aria-label='breadcrumb' class='breadcrumbs'>
+                        <a expr:href='data:blog.homepageUrl'>홈</a>
+                        <b:if cond='data:post.labels'><b:loop values='data:post.labels' var='label' index='i'><b:if cond='data:i == 0'> &#8250; <a expr:href='data:label.url'><data:label.name/></a></b:if></b:loop></b:if>
+                      </nav>
                       <h1 class='post-title single'><data:post.title/></h1>
                       <div class='post-header'>
-                        <time class='byline'><data:post.timestamp/></time>
+                        <time class='byline' expr:datetime='data:post.timestampISO8601'><data:post.timestamp/></time>
                       </div>
+                      <b:if cond='data:blog.adsenseClientId'>
+                        <div class='ad-slot' style='text-align:center;margin:20px 0;min-height:280px'>
+                          <ins class='adsbygoogle' data-ad-format='fluid' data-ad-layout='in-article' data-ad-slot='REPLACE_SLOT_ID' expr:data-ad-client='data:blog.adsenseClientId' style='display:block'/>
+                          <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+                        </div>
+                      </b:if>
                       <div class='post-body'>
                         <data:post.body/>
                       </div>
+                      <b:if cond='data:blog.adsenseClientId'>
+                        <div class='ad-slot' style='text-align:center;margin:24px 0;min-height:280px'>
+                          <ins class='adsbygoogle' data-ad-format='fluid' data-ad-layout='in-article' data-ad-slot='REPLACE_SLOT_ID' expr:data-ad-client='data:blog.adsenseClientId' style='display:block'/>
+                          <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+                        </div>
+                      </b:if>
                       <b:if cond='data:post.labels'>
                         <div class='byline post-labels'>
                           <b:loop values='data:post.labels' var='label'>
@@ -1007,6 +1067,28 @@ color:$(attribution.link.color)
                           </b:loop>
                         </div>
                       </b:if>
+                      <script type='application/ld+json'>{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "mainEntityOfPage": { "@type": "WebPage", "@id": "<data:post.url.canonical/>" },
+  "headline": "<data:post.title.jsonEscaped/>",
+  "url": "<data:post.url.canonical/>",
+  "datePublished": "<data:post.timestampISO8601/>",
+  "dateModified": "<data:post.lastUpdatedISO8601/>",<b:if cond='data:post.snippets.short'>
+  "description": "<data:post.snippets.short.jsonEscaped/>",</b:if><b:if cond='data:post.labels'>
+  "keywords": "<b:loop values='data:post.labels' var='label' index='i'><b:if cond='data:i != 0'>, </b:if><data:label.name.jsonEscaped/></b:loop>",</b:if>
+  "author": { "@type": "Person", "name": "NEWS 편집팀" },
+  "publisher": { "@type": "Organization", "name": "<data:blog.title.jsonEscaped/>", "logo": { "@type": "ImageObject", "url": "https://trend-cracker.blogspot.com/logo.png" } },
+  "inLanguage": "ko-KR"
+}</script>
+                      <script type='application/ld+json'>{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    { "@type": "ListItem", "position": 1, "name": "홈", "item": "<data:blog.homepageUrl/>" },
+    { "@type": "ListItem", "position": 2, "name": "<data:post.title.jsonEscaped/>", "item": "<data:post.url.canonical/>" }
+  ]
+}</script>
                     </div>
                   </article>
                 </b:includable>

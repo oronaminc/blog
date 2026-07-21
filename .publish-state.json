@@ -2,25 +2,29 @@
   "2026-07-21-hello-world.md": {
     "postId": "5079676939617921237",
     "url": "https://trend-cracker.blogspot.com/",
-    "hash": "47c7bc65a47ca46d",
-    "isDraft": true
+    "hash": "cd5d0973779e473c",
+    "isDraft": true,
+    "updated": "2026-07-21T09:55:49-07:00"
   },
   "2026-07-21-blogger-auto-publish.md": {
     "postId": "5969439927980666937",
     "url": "https://trend-cracker.blogspot.com/2026/07/git-push-blogger.html",
-    "hash": "b67386a723f8105b",
-    "isDraft": false
+    "hash": "b8528348837709d5",
+    "isDraft": false,
+    "updated": "2026-07-21T09:55:53-07:00"
   },
   "2026-07-21-google-api-key-vs-oauth.md": {
     "postId": "3116520351595107954",
     "url": "https://trend-cracker.blogspot.com/2026/07/google-api-vs-oauth-20.html",
-    "hash": "23182795f609836d",
-    "isDraft": false
+    "hash": "a738f52fff4ac778",
+    "isDraft": false,
+    "updated": "2026-07-21T09:55:51-07:00"
   },
   "2026-07-21-blog-cms-build.md": {
     "postId": "6454541051047848615",
     "url": "https://trend-cracker.blogspot.com/2026/07/github-blogger-cms.html",
-    "hash": "d8feab881a2c1dc4",
-    "isDraft": false
+    "hash": "c04ca22676baa24f",
+    "isDraft": false,
+    "updated": "2026-07-21T09:55:55-07:00"
   }
 }
