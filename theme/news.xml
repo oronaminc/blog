@@ -78,11 +78,11 @@
       default="$(robotoBold45)"  value="800 44px 'Pretendard','Noto Sans KR',sans-serif"/>
   <Variable name="blog.title.color" description="Color"
       type="color"
-      default="#fff"  value="#ffffff"/>
+      default="#fff"  value="#18181b"/>
   <Variable name="header.icons.color"
       description="Background icons color"
       type="color"
-      default="#fff"  value="#ffffff"/>
+      default="#fff"  value="#52525b"/>
 </Group>
 
 <Group description="Tabs text" selector="div.widget.PageList">
@@ -695,6 +695,27 @@ text-align:center
 .widget .title{
 line-height:28px
 }
+.site-name{
+text-align:center;
+margin:0 0 10px
+}
+.site-name a{
+color:$(posts.title.color);
+font:700 22px 'Pretendard','Noto Sans KR',sans-serif;
+letter-spacing:-.01em
+}
+.post-title.single{
+font:800 34px 'Pretendard','Noto Sans KR',sans-serif;
+line-height:1.32;
+margin:0 0 12px;
+letter-spacing:-.02em;
+color:$(posts.title.color)
+}
+.centered-top-container{
+border-bottom:1px solid #e4e4e7;
+margin-bottom:20px;
+padding-bottom:6px
+}
 #page_body .FeaturedPost,.Blog .blog-posts .post-outer-container{
 background:$(posts.background.color);
 min-height:40px;
@@ -884,7 +905,11 @@ color:$(attribution.link.color)
                     <p><data:this.description/></p>
                   </b:includable>
                   <b:includable id='title'>
-                    <h1><a expr:href='data:blog.homepageUrl'><data:blog.title/></a></h1>
+                    <b:if cond='data:view.isSingleItem'>
+                      <p class='site-name'><a expr:href='data:blog.homepageUrl'><data:blog.title/></a></p>
+                    <b:else/>
+                      <h1><a expr:href='data:blog.homepageUrl'><data:blog.title/></a></h1>
+                    </b:if>
                   </b:includable>
                 </b:widget>
               </b:section>
@@ -968,9 +993,9 @@ color:$(attribution.link.color)
                 <b:includable id='singlePost' var='post'>
                   <article class='post-outer-container'>
                     <div class='post'>
-                      <h3 class='post-title'><data:post.title/></h3>
+                      <h1 class='post-title single'><data:post.title/></h1>
                       <div class='post-header'>
-                        <span class='byline'><data:post.timestamp/></span>
+                        <time class='byline'><data:post.timestamp/></time>
                       </div>
                       <div class='post-body'>
                         <data:post.body/>
