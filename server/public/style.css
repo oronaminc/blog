@@ -194,6 +194,7 @@ button { font-family: inherit; }
 .badge.draft { background: rgba(224, 164, 59, 0.16); color: var(--amber); }
 .badge.published { background: rgba(64, 200, 119, 0.15); color: var(--green); }
 .badge.modified { background: rgba(52, 192, 201, 0.16); color: #34c0c9; }
+.badge.scheduled { background: rgba(167, 139, 250, 0.18); color: #a78bff; }
 .badge.drift { background: rgba(240, 101, 93, 0.16); color: var(--red); }
 .list-empty { padding: 20px 14px; color: var(--text-mut); font-size: 13px; text-align: center; }
 
@@ -253,6 +254,7 @@ button { font-family: inherit; }
 }
 .tb:hover { background: var(--surface-3); color: var(--text); }
 .tb:active { transform: translateY(1px); }
+.tb-g { font-weight: 800; color: #4285f4; }
 .tb-sep { width: 1px; height: 18px; background: var(--border); margin: 0 5px; }
 .tb-hint { font-size: 11px; color: var(--text-mut); margin-left: auto; }
 

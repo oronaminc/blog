@@ -33,14 +33,33 @@ export function absolutizeAssets(html) {
   return html.replace(/((?:src|href)=)(["'])(?:\.\/)?assets\//g, `$1$2${ASSET_BASE}/assets/`);
 }
 
+// datetime-local("2026-08-01T09:00") → RFC3339(로컬 타임존 오프셋 포함)
+export function toRFC3339(local) {
+  const d = new Date(local);
+  if (isNaN(d)) return null;
+  const p = (n) => String(n).padStart(2, '0');
+  const off = -d.getTimezoneOffset();
+  const sign = off >= 0 ? '+' : '-';
+  const oh = p(Math.floor(Math.abs(off) / 60));
+  const om = p(Math.abs(off) % 60);
+  return `${d.getFullYear()}-${p(d.getMonth() + 1)}-${p(d.getDate())}T${p(d.getHours())}:${p(d.getMinutes())}:00${sign}${oh}:${om}`;
+}
+
+export function isFuture(v) {
+  if (!v) return false;
+  const d = new Date(v);
+  return !isNaN(d) && d.getTime() > Date.now();
+}
+
 // 프론트매터+본문 → 발행에 필요한 정규화된 값 + 내용 해시
 export function buildPost(data, content) {
   const title = data.title || 'Untitled';
   const labels = normalizeLabels(data.labels);
   const isDraft = data.draft === true;
+  const publishAt = data.publishAt ? String(data.publishAt) : null;
   const html = absolutizeAssets(renderMarkdown(content));
-  const hash = hashOf(JSON.stringify({ title, labels, isDraft, html }));
-  return { title, labels, isDraft, html, hash };
+  const hash = hashOf(JSON.stringify({ title, labels, isDraft, html, publishAt }));
+  return { title, labels, isDraft, html, hash, publishAt };
 }
 
 // 액세스 토큰을 한 번만 발급해 재사용하는 클라이언트 팩토리
@@ -70,13 +89,17 @@ export async function getStatuses() {
     const prev = state[file];
     let status;
     if (!prev) status = 'local';
-    else if (prev.hash === b.hash) status = b.isDraft ? 'draft' : 'published';
-    else status = 'modified';
+    else if (prev.hash === b.hash) {
+      if (b.isDraft) status = 'draft';
+      else if (isFuture(b.publishAt)) status = 'scheduled';
+      else status = 'published';
+    } else status = 'modified';
     out.push({
       file,
       title: b.title,
       labels: b.labels,
       isDraft: b.isDraft,
+      publishAt: b.publishAt,
       date: data.date ? String(data.date) : null,
       status,
       postId: prev?.postId || null,
@@ -97,7 +120,7 @@ export async function publishPosts({ dryRun = false, only = null, onLog = () => 
 
   for (const file of files) {
     const { data, content } = await readPost(file);
-    const { title, labels, isDraft, html, hash } = buildPost(data, content);
+    const { title, labels, isDraft, html, hash, publishAt } = buildPost(data, content);
     const prev = state[file];
 
     if (prev && prev.hash === hash) {
@@ -106,7 +129,13 @@ export async function publishPosts({ dryRun = false, only = null, onLog = () => 
       continue;
     }
 
-    const postBody = { title, content: html, ...(labels.length ? { labels } : {}) };
+    // publishAt(미래) 지정 시 published 를 넣어 Blogger 예약 발행
+    const postBody = {
+      title,
+      content: html,
+      ...(labels.length ? { labels } : {}),
+      ...(publishAt && toRFC3339(publishAt) ? { published: toRFC3339(publishAt) } : {}),
+    };
 
     if (dryRun) {
       results.push({ file, action: prev ? 'update' : 'create', title, isDraft, dryRun: true });

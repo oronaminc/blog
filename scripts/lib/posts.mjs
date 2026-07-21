@@ -45,10 +45,25 @@ export function normalizeDate(v) {
   return v;
 }
 
+// datetime 값(문자열/Date)을 "YYYY-MM-DDTHH:MM"(datetime-local 형식) 문자열로 정규화.
+// js-yaml 은 타임존 없는 타임스탬프를 UTC Date 로 파싱하므로 UTC 구성요소로 되돌린다.
+export function normalizeDateTime(v) {
+  if (v instanceof Date && !isNaN(v)) {
+    const p = (n) => String(n).padStart(2, '0');
+    return `${v.getUTCFullYear()}-${p(v.getUTCMonth() + 1)}-${p(v.getUTCDate())}T${p(v.getUTCHours())}:${p(v.getUTCMinutes())}`;
+  }
+  if (typeof v === 'string') {
+    const m = v.match(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}/);
+    return m ? m[0] : v;
+  }
+  return v;
+}
+
 export async function readPost(file) {
   const raw = await readFile(fileUrl(file), 'utf8');
   const { data, content } = matter(raw);
   if (data.date != null) data.date = normalizeDate(data.date);
+  if (data.publishAt != null) data.publishAt = normalizeDateTime(data.publishAt);
   return { file, data, content, raw };
 }
 

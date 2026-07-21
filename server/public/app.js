@@ -24,7 +24,7 @@ async function api(path, opts) {
   return data;
 }
 
-const BADGE = { local: '로컬만', draft: '초안', published: '발행됨', modified: '수정됨' };
+const BADGE = { local: '로컬만', draft: '초안', published: '발행됨', modified: '수정됨', scheduled: '예약됨' };
 
 function toast(msg, kind = '') {
   const el = $('toast');
@@ -81,7 +81,7 @@ function renderFilters() {
     return c;
   };
   el.appendChild(mk(null, '전체', state.posts.length, state.statusFilter === null));
-  for (const s of ['local', 'modified', 'draft', 'published']) {
+  for (const s of ['local', 'modified', 'draft', 'scheduled', 'published']) {
     if (counts[s]) el.appendChild(mk(s, BADGE[s], counts[s], state.statusFilter === s));
   }
 }
@@ -186,6 +186,7 @@ async function openPost(file) {
   $('f-title').value = p.data.title || '';
   $('f-date').value = p.data.date || '';
   $('f-labels').value = Array.isArray(p.data.labels) ? p.data.labels.join(', ') : p.data.labels || '';
+  $('f-publishat').value = p.data.publishAt || '';
   $('f-draft').checked = p.data.draft === true;
   $('f-content').value = p.content || '';
   $('file-name').textContent = file;
@@ -201,7 +202,13 @@ async function openPost(file) {
 function collect() {
   const labels = $('f-labels').value.split(',').map((s) => s.trim()).filter(Boolean);
   return {
-    data: { title: $('f-title').value || '제목 없음', labels, draft: $('f-draft').checked, date: $('f-date').value || undefined },
+    data: {
+      title: $('f-title').value || '제목 없음',
+      labels,
+      draft: $('f-draft').checked,
+      date: $('f-date').value || undefined,
+      publishAt: $('f-publishat').value || undefined,
+    },
     content: $('f-content').value,
   };
 }
@@ -325,6 +332,19 @@ const TB = {
   quote: () => prefixLines('> '),
   ul: () => prefixLines('- '),
   image: () => $('img-input').click(),
+  gsearch: () => {
+    const q = prompt('Google 검색 미리보기로 넣을 검색어 (인기 인물·장소·키워드):');
+    if (!q) return;
+    const enc = encodeURIComponent(q);
+    const card =
+      `\n<a href="https://www.google.com/search?q=${enc}" target="_blank" rel="noopener" ` +
+      `style="display:inline-flex;align-items:center;gap:8px;padding:10px 16px;border:1px solid #dadce0;` +
+      `border-radius:24px;text-decoration:none;color:#1a73e8;font-weight:600;box-shadow:0 1px 3px rgba(60,64,67,.15)">` +
+      `<span style="font-weight:800;background:linear-gradient(90deg,#4285f4,#ea4335,#fbbc05,#34a853);` +
+      `-webkit-background-clip:text;background-clip:text;color:transparent">G</span> ` +
+      `${escapeHtml(q)} — Google 검색</a>\n`;
+    insertAtCursor(card);
+  },
 };
 
 // ── 이미지 업로드 ─────────────────────────────────
@@ -385,7 +405,7 @@ function bind() {
   $('bulk-delete').onclick = bulkDelete;
   $('bulk-clear').onclick = clearSelection;
 
-  for (const id of ['f-title', 'f-date', 'f-content']) $(id).addEventListener('input', onEdit);
+  for (const id of ['f-title', 'f-date', 'f-publishat', 'f-content']) $(id).addEventListener('input', onEdit);
   $('f-draft').addEventListener('change', onEdit);
 
   // 목록: 체크박스=선택, 나머지=열기
