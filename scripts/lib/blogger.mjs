@@ -32,7 +32,9 @@ export function createClient(accessToken, blogId) {
   async function call(method, path, { query, body } = {}) {
     const url = new URL(`${API}/blogs/${blogId}${path}`);
     for (const [k, v] of Object.entries(query || {})) {
-      if (v !== undefined) url.searchParams.set(k, String(v));
+      if (v === undefined) continue;
+      if (Array.isArray(v)) v.forEach((x) => url.searchParams.append(k, String(x)));
+      else url.searchParams.set(k, String(v));
     }
 
     // Blogger 는 레이트리밋을 429 뿐 아니라 403(rateLimitExceeded) 로도 반환하므로
@@ -60,8 +62,8 @@ export function createClient(accessToken, blogId) {
   return {
     // 블로그 정보 조회
     blogInfo: () => call('GET', ''),
-    // 원격 글 목록 (초안 포함, 소유자 뷰)
-    list: ({ maxResults = 100, pageToken, status } = {}) =>
+    // 원격 글 목록 (초안·예약 포함, 소유자 뷰)
+    list: ({ maxResults = 100, pageToken, status = ['LIVE', 'DRAFT', 'SCHEDULED'] } = {}) =>
       call('GET', '/posts', { query: { maxResults, pageToken, status, view: 'ADMIN', fetchBodies: true } }),
     // 단건 조회
     get: (postId) => call('GET', `/posts/${postId}`),

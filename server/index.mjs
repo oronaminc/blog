@@ -14,6 +14,8 @@ import {
   uniqueFilename,
   assertSafeFile,
   today,
+  listAllLabels,
+  saveAsset,
 } from '../scripts/lib/posts.mjs';
 import {
   getStatuses,
@@ -25,8 +27,9 @@ import {
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const app = express();
-app.use(express.json({ limit: '10mb' }));
+app.use(express.json({ limit: '25mb' })); // 이미지 base64 업로드 여유
 app.use(express.static(join(__dirname, 'public')));
+app.use('/assets', express.static(join(__dirname, '..', 'assets'))); // 로컬 프리뷰용 에셋 서빙
 
 // 요청마다 새 클라이언트(토큰 발급). 소규모 로컬 앱이므로 단순하게.
 async function bloggerClient() {
@@ -145,6 +148,50 @@ app.post(
   wrap(async (req, res) => {
     const { markdown = '' } = req.body || {};
     res.json({ html: renderMarkdown(markdown) });
+  })
+);
+
+// ── 전체 라벨 (자동완성) ────────────────────────
+app.get(
+  '/api/labels',
+  wrap(async (req, res) => {
+    res.json(await listAllLabels());
+  })
+);
+
+// ── 이미지 업로드 (base64 data URL) ─────────────
+app.post(
+  '/api/upload',
+  wrap(async (req, res) => {
+    const { filename = 'image.png', dataUrl = '' } = req.body || {};
+    const m = dataUrl.match(/^data:(.+?);base64,(.*)$/);
+    if (!m) return res.status(400).json({ error: '이미지 데이터가 올바르지 않습니다.' });
+    const buffer = Buffer.from(m[2], 'base64');
+    const name = await saveAsset(filename, buffer);
+    const rel = `assets/${name}`;
+    res.json({ path: rel, markdown: `![](${rel})` });
+  })
+);
+
+// ── 원격 변경(드리프트) 감지 ────────────────────
+app.get(
+  '/api/drift',
+  wrap(async (req, res) => {
+    const api = await bloggerClient();
+    const data = await api.list({ maxResults: 100 });
+    const remoteById = new Map((data.items || []).map((p) => [p.id, p]));
+    const state = await loadState();
+    const drifted = [];
+    for (const [file, e] of Object.entries(state)) {
+      if (!e.postId) continue;
+      const r = remoteById.get(e.postId);
+      if (!r) {
+        drifted.push({ file, reason: 'deleted' });
+      } else if (e.updated && r.updated && new Date(r.updated) > new Date(e.updated)) {
+        drifted.push({ file, reason: 'remote-newer', remoteUpdated: r.updated });
+      }
+    }
+    res.json({ drifted });
   })
 );
 

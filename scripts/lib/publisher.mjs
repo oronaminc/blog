@@ -22,12 +22,22 @@ function hashOf(str) {
   return createHash('sha256').update(str).digest('hex').slice(0, 16);
 }
 
+// Blogger 는 이미지를 호스팅하지 않으므로, 발행 HTML 의 상대경로 assets/ 이미지를
+// GitHub 에 호스팅된 절대 URL 로 바꾼다. (로컬 프리뷰는 상대경로 그대로 → 서버가 서빙)
+const ASSET_BASE = (
+  process.env.ASSET_BASE_URL || 'https://raw.githubusercontent.com/oronaminc/blog/main'
+).replace(/\/$/, '');
+
+export function absolutizeAssets(html) {
+  return html.replace(/((?:src|href)=)(["'])(?:\.\/)?assets\//g, `$1$2${ASSET_BASE}/assets/`);
+}
+
 // 프론트매터+본문 → 발행에 필요한 정규화된 값 + 내용 해시
 export function buildPost(data, content) {
   const title = data.title || 'Untitled';
   const labels = normalizeLabels(data.labels);
   const isDraft = data.draft === true;
-  const html = renderMarkdown(content);
+  const html = absolutizeAssets(renderMarkdown(content));
   const hash = hashOf(JSON.stringify({ title, labels, isDraft, html }));
   return { title, labels, isDraft, html, hash };
 }
@@ -107,14 +117,14 @@ export async function publishPosts({ dryRun = false, only = null, onLog = () => 
 
     if (!prev) {
       const r = await api.insert(postBody, { isDraft });
-      state[file] = { postId: r.id, url: r.url, hash, isDraft };
+      state[file] = { postId: r.id, url: r.url, hash, isDraft, updated: r.updated };
       results.push({ file, action: 'create', title, url: r.url, isDraft });
       onLog(`✅ 발행: ${file} → ${r.url || r.id}`);
     } else {
       const r = await api.update(prev.postId, postBody);
       if (prev.isDraft && !isDraft) await api.publish(prev.postId); // 초안 → 공개
       else if (!prev.isDraft && isDraft) await api.revert(prev.postId); // 공개 → 초안
-      state[file] = { postId: prev.postId, url: r.url || prev.url, hash, isDraft };
+      state[file] = { postId: prev.postId, url: r.url || prev.url, hash, isDraft, updated: r.updated || prev.updated };
       results.push({ file, action: 'update', title, url: r.url || prev.url, isDraft });
       onLog(`♻️  업데이트: ${file} → ${r.url || r.id}`);
     }

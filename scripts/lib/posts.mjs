@@ -4,6 +4,7 @@ import matter from 'gray-matter';
 
 // posts/ 디렉터리의 마크다운 파일 CRUD. CLI(publish.mjs)와 웹서버가 공용으로 사용.
 export const POSTS_DIR = new URL('../../posts/', import.meta.url);
+export const ASSETS_DIR = new URL('../../assets/', import.meta.url);
 
 function fileUrl(file) {
   return new URL(assertSafeFile(file), POSTS_DIR);
@@ -86,6 +87,37 @@ export function today() {
 export function makeFilename(title, date) {
   const d = date || today();
   return `${d}-${slugify(title)}.md`;
+}
+
+// 모든 글의 라벨을 수집(중복 제거·정렬) — 자동완성용
+export async function listAllLabels() {
+  const files = await listPostFiles();
+  const set = new Set();
+  for (const f of files) {
+    const { data } = await readPost(f);
+    for (const l of normalizeLabels(data.labels)) set.add(l);
+  }
+  return [...set].sort((a, b) => a.localeCompare(b, 'ko'));
+}
+
+// 이미지 등 에셋을 assets/ 에 저장(파일명 충돌 방지). 반환: 저장된 파일명
+export async function saveAsset(filename, buffer) {
+  await mkdir(ASSETS_DIR, { recursive: true });
+  const dot = filename.lastIndexOf('.');
+  const ext = dot >= 0 ? filename.slice(dot).toLowerCase().replace(/[^.\w]/g, '') : '';
+  const stem = (dot >= 0 ? filename.slice(0, dot) : filename)
+    .toLowerCase()
+    .replace(/[^\p{L}\p{N}]+/gu, '-')
+    .replace(/^-+|-+$/g, '')
+    .slice(0, 40) || 'image';
+  let name = `${stem}${ext}`;
+  let n = 2;
+  while (existsSync(new URL(name, ASSETS_DIR))) {
+    name = `${stem}-${n}${ext}`;
+    n += 1;
+  }
+  await writeFile(new URL(name, ASSETS_DIR), buffer);
+  return name;
 }
 
 // 파일명 충돌 시 -2, -3 … suffix 를 붙여 덮어쓰기 방지
