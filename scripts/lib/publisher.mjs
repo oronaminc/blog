@@ -158,6 +158,10 @@ export async function publishPosts({ dryRun = false, only = null, onLog = () => 
       results.push({ file, action: 'update', title, url: r.url || prev.url, isDraft });
       onLog(`♻️  업데이트: ${file} → ${r.url || r.id}`);
     }
+
+    // 증분 저장(중단 대비) + 발행 간 딜레이(연속 발행 보안 차단 회피)
+    await saveState(state);
+    await new Promise((res) => setTimeout(res, Number(process.env.PUBLISH_DELAY_MS || 4000)));
   }
 
   if (!dryRun) await saveState(state);
