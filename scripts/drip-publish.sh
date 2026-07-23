@@ -21,6 +21,9 @@ for i in $(seq 1 $MAXITER); do
   elif echo "$OUT" | grep -q "ONE_OK"; then
     git add .publish-state.json 2>/dev/null && git commit -q -m "chore: 발행 상태 업데이트 [skip ci]" 2>/dev/null && git push -q 2>/dev/null
     sleep "$GAP"
+  elif echo "$OUT" | grep -q "NEEDS_SMS"; then
+    echo "[$STAMP] !! SMS 본인확인 재요구 — 드립 중단(사용자 조치 필요) !!" >> "$LOG"
+    break
   else
     sleep "$BLOCKGAP"
   fi

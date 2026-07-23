@@ -16,7 +16,11 @@ try {
   process.exit(0);
 } catch (err) {
   const msg = err.message || String(err);
-  if (msg.includes('403')) console.log('BLOCKED 403 계정 본인확인 필요');
-  else console.log('ERROR ' + msg.slice(0, 120));
+  if (msg.includes('403')) {
+    if (/Verify your info|signin\/continue/.test(msg)) console.log('NEEDS_SMS SMS 본인확인 재요구 — 사용자 조치 필요');
+    else console.log('THROTTLED 403 레이트 스로틀(시간지나면 풀림)');
+  } else {
+    console.log('ERROR ' + msg.slice(0, 120));
+  }
   process.exit(1);
 }
