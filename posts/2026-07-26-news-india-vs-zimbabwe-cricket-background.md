@@ -3,7 +3,7 @@ title: "인도 대 짐바브웨: 크리켓 국제 대결의 배경과 구조"
 category: "스포츠"
 labels: ["크리켓", "인도", "짐바브웨", "국제 스포츠", "ICC"]
 draft: true
-date: 2026-07-25
+date: 2026-07-26
 note: "thematic-general"
 ---
 

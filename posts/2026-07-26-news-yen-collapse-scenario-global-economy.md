@@ -3,7 +3,7 @@ title: "엔저 장기화와 엔 캐리 청산, 세계 경제의 구조적 위험
 category: "경제"
 labels: ["엔화", "엔 캐리 트레이드", "일본은행", "환율", "세계경제"]
 draft: true
-date: 2026-07-25
+date: 2026-07-26
 note: "thematic-general"
 ---
 

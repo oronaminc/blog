@@ -3,7 +3,7 @@ title: "'공동의 적'에 기댄 정당 결속, 그 구조와 균열"
 category: "정치"
 labels: ["정당정치", "정치 양극화", "적대적 공생", "부정적 당파성", "양당제"]
 draft: true
-date: 2026-07-25
+date: 2026-07-26
 note: "thematic-general"
 ---
 

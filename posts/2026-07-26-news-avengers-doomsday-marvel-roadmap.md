@@ -3,7 +3,7 @@ title: "어벤져스 둠스데이, RDJ '닥터 둠'으로 멀티버스 사가 �
 category: "연예"
 labels: ["어벤져스 둠스데이", "마블 스튜디오", "멀티버스 사가", "로버트 다우니 주니어", "코믹콘"]
 draft: true
-date: 2026-07-25
+date: 2026-07-26
 note: "thematic-general"
 ---
 

@@ -3,7 +3,7 @@ title: "부동산 논의의 사각지대: 임차인 불안과 전월세 시장�
 category: "경제"
 labels: ["전월세", "임차인", "주거정책", "전세사기", "월세화"]
 draft: true
-date: 2026-07-25
+date: 2026-07-26
 note: "thematic-general"
 ---
 

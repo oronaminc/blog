@@ -193,7 +193,6 @@ async function openPost(file) {
   const p = await api('/api/posts/' + encodeURIComponent(file));
   state.current = p;
   state.dirty = false;
-  $('empty-state').hidden = true;
   $('editor-inner').hidden = false;
   $('f-title').value = p.data.title || '';
   $('f-date').value = p.data.date || '';
@@ -264,7 +263,7 @@ async function deleteCurrent() {
   else if (!confirm('이 글을 삭제할까요?')) return;
   await api('/api/posts/' + encodeURIComponent(state.current.file) + (remote ? '?remote=true' : ''), { method: 'DELETE' });
   state.current = null; state.dirty = false;
-  $('editor-inner').hidden = true; $('empty-state').hidden = false;
+  $('editor-inner').hidden = true;
   toast('삭제됨', 'ok');
   await loadPosts();
 }

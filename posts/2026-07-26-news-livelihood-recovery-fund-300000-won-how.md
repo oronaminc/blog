@@ -3,7 +3,7 @@ title: "민생회복 지원금 30만원, 어떻게 지급되고 어디에 쓰나
 category: "지원금"
 labels: ["민생회복지원금", "소비쿠폰", "지원금 지급", "지역화폐", "재정정책"]
 draft: true
-date: 2026-07-25
+date: 2026-07-26
 note: "thematic-general"
 ---
 

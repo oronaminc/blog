@@ -32,6 +32,9 @@
   --mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, monospace;
 }
 
+/* hidden 속성이 display 규칙보다 우선하도록(에디터 토글 버그 방지) */
+[hidden] { display: none !important; }
+
 @media (prefers-color-scheme: light) {
   :root:not([data-theme="dark"]) {
     --bg: #f4f6fa;
@@ -210,7 +213,7 @@ button { font-family: inherit; }
 .editor-inner { flex: 1; display: flex; flex-direction: column; min-height: 0; }
 .meta { padding: 16px 22px 12px; border-bottom: 1px solid var(--border-soft); }
 .f-title {
-  width: 100%; font-size: 22px; font-weight: 700; color: var(--text); letter-spacing: -0.02em;
+  width: 100%; font-size: 27px; font-weight: 700; color: var(--text); letter-spacing: -0.02em;
   background: transparent; border: none; padding: 0; margin-bottom: 12px;
 }
 .f-title::placeholder { color: var(--text-mut); }
@@ -264,8 +267,8 @@ button { font-family: inherit; }
 .split { flex: 1; display: flex; min-height: 0; }
 .content-wrap { flex: 1; width: 50%; position: relative; display: flex; min-height: 0; }
 .content {
-  flex: 1; width: 100%; overflow-y: auto; padding: 22px; resize: none; border: none;
-  font-family: var(--mono); font-size: 13.5px; line-height: 1.75; color: var(--text); background: var(--bg);
+  flex: 1; width: 100%; overflow-y: auto; padding: 24px; resize: none; border: none;
+  font-family: var(--mono); font-size: 15px; line-height: 1.8; color: var(--text); background: var(--bg);
 }
 .content:focus { outline: none; }
 .content-wrap.dragover .content { background: var(--accent-soft); }
@@ -277,7 +280,7 @@ button { font-family: inherit; }
 .preview { flex: 1; width: 50%; overflow-y: auto; padding: 22px 26px; border-left: 1px solid var(--border-soft); background: var(--surface-1); }
 
 /* ── Markdown preview ── */
-.markdown-body { line-height: 1.75; font-size: 15px; color: var(--text); }
+.markdown-body { line-height: 1.8; font-size: 16.5px; color: var(--text); }
 .markdown-body > *:first-child { margin-top: 0; }
 .markdown-body h1, .markdown-body h2, .markdown-body h3 { line-height: 1.3; letter-spacing: -0.01em; margin: 1.4em 0 0.6em; }
 .markdown-body h1 { font-size: 1.7em; } .markdown-body h2 { font-size: 1.35em; padding-bottom: 0.3em; border-bottom: 1px solid var(--border-soft); }

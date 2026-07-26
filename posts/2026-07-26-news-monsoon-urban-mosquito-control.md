@@ -3,7 +3,7 @@ title: "장마철 도심 모기 급증… 고인 물이 부른 방제 비상"
 category: "건강"
 labels: ["모기", "방제", "장마철", "감염병 예방", "도시 방역"]
 draft: true
-date: 2026-07-25
+date: 2026-07-26
 note: "thematic-general"
 ---
 

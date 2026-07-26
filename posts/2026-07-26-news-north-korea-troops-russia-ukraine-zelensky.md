@@ -3,7 +3,7 @@ title: "북한군의 러시아 파병과 젤렌스키의 '추가 파병' 주장"
 category: "정치"
 labels: ["북한군 파병", "러시아-우크라이나 전쟁", "젤렌스키", "국제정세", "북러 밀착"]
 draft: true
-date: 2026-07-25
+date: 2026-07-26
 note: "thematic-general"
 ---
 

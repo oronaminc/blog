@@ -3,7 +3,7 @@ title: "스파이더맨 '브랜드 뉴 데이' 7월 31일 개봉…예고편 공
 category: "연예"
 labels: ["스파이더맨", "마블", "브랜드뉴데이", "톰홀랜드", "MCU"]
 draft: true
-date: 2026-07-25
+date: 2026-07-26
 note: "web-verified"
 ---
 

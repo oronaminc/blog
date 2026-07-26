@@ -3,7 +3,7 @@ title: "CCTV 삭제 논란, 영상 증거 보존과 공개의 쟁점"
 category: "연예"
 labels: ["CCTV", "영상증거", "개인정보보호법", "증거보존", "연예뉴스"]
 draft: true
-date: 2026-07-25
+date: 2026-07-26
 note: "thematic-general"
 ---
 

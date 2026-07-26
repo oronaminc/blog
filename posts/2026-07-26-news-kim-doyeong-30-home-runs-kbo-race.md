@@ -3,7 +3,7 @@ title: "김도영 시즌 30호 홈런 돌파, 홈런왕 경쟁 본격화"
 category: "스포츠"
 labels: ["KBO", "김도영", "홈런왕", "KIA타이거즈", "프로야구"]
 draft: true
-date: 2026-07-25
+date: 2026-07-26
 note: "thematic-general"
 ---
 

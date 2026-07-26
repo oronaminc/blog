@@ -3,7 +3,7 @@ title: "명절 기차표 예매 30년, 역 창구에서 스마트폰으로"
 category: "생활"
 labels: ["명절", "기차표예매", "코레일", "KTX", "철도"]
 draft: true
-date: 2026-07-25
+date: 2026-07-26
 note: "thematic-general"
 ---
 

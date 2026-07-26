@@ -3,7 +3,7 @@ title: "코르티스, 스포티파이 누적 스트리밍 10억 회 돌파"
 category: "연예"
 labels: ["코르티스", "스포티파이", "케이팝", "빅히트뮤직", "스트리밍"]
 draft: true
-date: 2026-07-25
+date: 2026-07-26
 note: "thematic-general"
 ---
 

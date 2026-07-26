@@ -3,7 +3,7 @@ title: "'피의 게임X' 폭력 논란…서바이벌 예능 출연자 보호 �
 category: "연예"
 labels: ["서바이벌예능", "피의게임X", "출연자보호", "방송윤리", "표준계약서"]
 draft: true
-date: 2026-07-25
+date: 2026-07-26
 note: "web-verified"
 ---
 

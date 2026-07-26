@@ -3,7 +3,7 @@ title: "현대차 '플레오스'로 본 자동차 구독경제의 개화"
 category: "경제"
 labels: ["현대차", "플레오스", "SDV", "자동차 구독경제", "소프트웨어 중심 자동차"]
 draft: true
-date: 2026-07-25
+date: 2026-07-26
 note: "thematic-general"
 ---
 

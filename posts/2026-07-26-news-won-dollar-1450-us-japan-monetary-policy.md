@@ -3,7 +3,7 @@ title: "원달러 환율 1,450원대…미·일 통화정책과 수급이 관건
 category: "경제"
 labels: ["환율", "원달러", "통화정책", "연준", "일본은행"]
 draft: true
-date: 2026-07-25
+date: 2026-07-26
 note: "web-verified"
 ---
 

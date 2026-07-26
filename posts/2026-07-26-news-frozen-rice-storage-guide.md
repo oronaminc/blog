@@ -3,7 +3,7 @@ title: "냉동밥, 얼마나 두고 먹을 수 있나… 안전한 보관법"
 category: "생활"
 labels: ["냉동밥", "식품보관", "식중독예방", "주방상식", "밥"]
 draft: true
-date: 2026-07-25
+date: 2026-07-26
 note: "thematic-general"
 ---
 

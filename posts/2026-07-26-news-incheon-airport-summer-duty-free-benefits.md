@@ -3,7 +3,7 @@ title: "여름 성수기 인천공항 면세쇼핑, 할인·적립 혜택 챙기
 category: "쇼핑"
 labels: ["면세점", "인천공항", "여름휴가", "쇼핑혜택", "환율"]
 draft: true
-date: 2026-07-25
+date: 2026-07-26
 note: "thematic-general"
 ---
 

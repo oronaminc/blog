@@ -3,7 +3,7 @@ title: "장마철 계곡 출입통제와 안전 관리, 핵심 쟁점 정리"
 category: "국제"
 labels: ["장마", "계곡 안전", "출입통제", "재난안전", "물놀이"]
 draft: true
-date: 2026-07-25
+date: 2026-07-26
 note: "thematic-general"
 ---
 
