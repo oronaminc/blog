@@ -1,5 +1,5 @@
 ---
-title: "스파이더맨 '브랜드 뉴 데이' 7월 31일 개봉…예고편 공개"
+title: "마블이 스파이더맨을 다시 '리셋'하는 계산"
 category: "연예"
 labels: ["스파이더맨", "마블", "브랜드뉴데이", "톰홀랜드", "MCU"]
 draft: true
@@ -7,7 +7,7 @@ date: 2026-07-26
 note: "web-verified"
 ---
 
-![스파이더맨 '브랜드 뉴 데이' 7월 31일 개봉…예고편 공개](assets/news-spider-man-brand-new-day-release.jpg)
+![마블이 스파이더맨을 다시 '리셋'하는 계산](assets/news-spider-man-brand-new-day-release.jpg)
 
 마블 스튜디오와 소니 픽처스의 새 스파이더맨 영화 '스파이더맨: 브랜드 뉴 데이(Spider-Man: Brand New Day)'가 오는 7월 31일 극장 개봉을 앞두고 있다. 톰 홀랜드가 다시 피터 파커 역을 맡은 마블 시네마틱 유니버스(MCU) 스파이더맨 실사 시리즈의 네 번째 작품으로, 앞서 3월 공개된 첫 공식 예고편에 이어 본편 공개가 초읽기에 들어갔다.
 

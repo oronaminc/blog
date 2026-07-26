@@ -1,5 +1,5 @@
 ---
-title: "장마철 계곡 출입통제와 안전 관리, 핵심 쟁점 정리"
+title: "계곡 통제가 매년 '자유 침해' 논란을 부르는 이유"
 category: "국제"
 labels: ["장마", "계곡 안전", "출입통제", "재난안전", "물놀이"]
 draft: true
@@ -7,7 +7,7 @@ date: 2026-07-26
 note: "thematic-general"
 ---
 
-![장마철 계곡 출입통제와 안전 관리, 핵심 쟁점 정리](assets/news-rainy-season-valley-access-control-safety.jpg)
+![계곡 통제가 매년 '자유 침해' 논란을 부르는 이유](assets/news-rainy-season-valley-access-control-safety.jpg)
 
 본격적인 장마가 이어지면서 전국 계곡과 하천의 출입통제를 둘러싼 논의가 다시 수면 위로 올랐다. 집중호우로 물이 급격히 불어나는 시기, 지방자치단체와 소방·국립공원 당국은 인명 사고를 막기 위해 계곡과 하천변, 저지대 야영장 등의 접근을 제한한다. 그러나 통제의 범위와 시점, 실효성을 놓고 이용객·상인·행정 사이에 견해차가 반복된다.
 

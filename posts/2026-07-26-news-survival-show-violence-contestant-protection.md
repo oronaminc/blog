@@ -1,5 +1,5 @@
 ---
-title: "'피의 게임X' 폭력 논란…서바이벌 예능 출연자 보호 과제로"
+title: "서바이벌 예능이 '독해질수록' 화제가 되는 구조"
 category: "연예"
 labels: ["서바이벌예능", "피의게임X", "출연자보호", "방송윤리", "표준계약서"]
 draft: true
@@ -7,7 +7,7 @@ date: 2026-07-26
 note: "web-verified"
 ---
 
-!['피의 게임X' 폭력 논란…서바이벌 예능 출연자 보호 과제로](assets/news-survival-show-violence-contestant-protection.jpg)
+![서바이벌 예능이 '독해질수록' 화제가 되는 구조](assets/news-survival-show-violence-contestant-protection.jpg)
 
 웨이브 서바이벌 예능 '피의 게임X'에서 불거진 출연자 간 폭력 논란이 장르 전반의 '출연자 보호' 문제로 확산하고 있다. 프로그램 5회 '약탈의 날' 편에서 한 출연자가 미션을 진행하던 중 동료 출연자에게 신체적 상해를 입힌 장면이 방송되면서, 서바이벌 포맷의 연출 수위와 제작진의 안전 관리 책임을 둘러싼 논의가 이어지고 있다.
 

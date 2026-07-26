@@ -1,5 +1,5 @@
 ---
-title: "김도영 시즌 30호 홈런 돌파, 홈런왕 경쟁 본격화"
+title: "타자들의 홈런이 급증하는 데는 공만의 문제가 아니다"
 category: "스포츠"
 labels: ["KBO", "김도영", "홈런왕", "KIA타이거즈", "프로야구"]
 draft: true
@@ -7,7 +7,7 @@ date: 2026-07-26
 note: "thematic-general"
 ---
 
-![김도영 시즌 30호 홈런 돌파, 홈런왕 경쟁 본격화](assets/news-kim-doyeong-30-home-runs-kbo-race.jpg)
+![타자들의 홈런이 급증하는 데는 공만의 문제가 아니다](assets/news-kim-doyeong-30-home-runs-kbo-race.jpg)
 
 KIA 타이거즈 내야수 김도영이 시즌 30호 홈런 고지를 밟으며 프로야구 홈런왕 경쟁의 한복판에 섰다. 한 시즌 30홈런은 정상급 거포임을 입증하는 상징적 기준선으로, 이 관문을 통과한 타자는 자연스럽게 리그 홈런 선두권 대열에 이름을 올린다.
 

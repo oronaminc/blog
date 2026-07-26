@@ -1,5 +1,5 @@
 ---
-title: "CCTV 삭제 논란, 영상 증거 보존과 공개의 쟁점"
+title: "'CCTV 삭제' 논란이 반복되는 진짜 이유"
 category: "연예"
 labels: ["CCTV", "영상증거", "개인정보보호법", "증거보존", "연예뉴스"]
 draft: true
@@ -7,7 +7,7 @@ date: 2026-07-26
 note: "thematic-general"
 ---
 
-![CCTV 삭제 논란, 영상 증거 보존과 공개의 쟁점](assets/news-cctv-footage-deletion-dispute-evidence-issues.jpg)
+!['CCTV 삭제' 논란이 반복되는 진짜 이유](assets/news-cctv-footage-deletion-dispute-evidence-issues.jpg)
 
 "CCTV 삭제 논란"이라는 문구가 온라인을 타고 빠르게 번지고 있다. 특정 장소의 폐쇄회로(CC)TV 영상이 사건의 진위를 가를 열쇠로 지목되면서, 정작 그 영상이 남아 있는지, 왜 지워졌는지가 새로운 쟁점으로 떠올랐다. 화면 몇 초의 존재 여부가 당사자들의 주장보다 더 큰 무게를 갖는 구조는 최근 공인·연예계 분쟁에서 반복적으로 나타나는 장면이다.
 

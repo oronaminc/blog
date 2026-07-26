@@ -1,5 +1,5 @@
 ---
-title: "인도 대 짐바브웨: 크리켓 국제 대결의 배경과 구조"
+title: "인도가 짐바브웨전에 주전을 안 보내는 이유"
 category: "스포츠"
 labels: ["크리켓", "인도", "짐바브웨", "국제 스포츠", "ICC"]
 draft: true
@@ -7,7 +7,7 @@ date: 2026-07-26
 note: "thematic-general"
 ---
 
-![인도 대 짐바브웨: 크리켓 국제 대결의 배경과 구조](assets/news-india-vs-zimbabwe-cricket-background.jpg)
+![인도가 짐바브웨전에 주전을 안 보내는 이유](assets/news-india-vs-zimbabwe-cricket-background.jpg)
 
 크리켓 세계 지형에서 정반대 지점에 선 두 나라의 만남이다. 세계 최대 크리켓 시장이자 강국인 인도와, 재정난 속에서도 강호의 지위를 지키려는 짐바브웨의 국제 대결은 단순한 한 경기를 넘어 현대 국제 크리켓의 구조와 위계를 압축해 보여준다. 크리켓이 낯선 한국 팬에게는 생소하지만, 남아시아와 옛 영연방권에서는 축구에 버금가는 열기를 지닌 종목이다.
 

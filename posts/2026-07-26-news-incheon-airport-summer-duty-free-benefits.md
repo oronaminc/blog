@@ -1,5 +1,5 @@
 ---
-title: "여름 성수기 인천공항 면세쇼핑, 할인·적립 혜택 챙기는 법"
+title: "면세점이 '최대 20% 할인'을 계속 외칠 수 있는 이유"
 category: "쇼핑"
 labels: ["면세점", "인천공항", "여름휴가", "쇼핑혜택", "환율"]
 draft: true
@@ -7,7 +7,7 @@ date: 2026-07-26
 note: "thematic-general"
 ---
 
-![여름 성수기 인천공항 면세쇼핑, 할인·적립 혜택 챙기는 법](assets/news-incheon-airport-summer-duty-free-benefits.jpg)
+![면세점이 '최대 20% 할인'을 계속 외칠 수 있는 이유](assets/news-incheon-airport-summer-duty-free-benefits.jpg)
 
 여름 휴가철 해외여행 수요가 몰리면서 인천국제공항 면세점이 성수기 쇼핑 혜택을 전면에 내세우고 있다. 항공권 예약과 함께 면세쇼핑을 여행 준비의 한 과정으로 챙기는 소비자가 늘면서, 멤버십과 모바일 쿠폰, 카드 제휴 등을 조건에 맞춰 겹쳐 적용하면 정상 면세가에서 추가로 최대 20% 안팎까지 값을 낮출 수 있다는 점이 주목받는다.
 

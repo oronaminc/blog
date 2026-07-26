@@ -1,5 +1,5 @@
 ---
-title: "현대차 '플레오스'로 본 자동차 구독경제의 개화"
+title: "완성차가 갑자기 '구독'을 팔기 시작한 진짜 이유"
 category: "경제"
 labels: ["현대차", "플레오스", "SDV", "자동차 구독경제", "소프트웨어 중심 자동차"]
 draft: true
@@ -7,7 +7,7 @@ date: 2026-07-26
 note: "thematic-general"
 ---
 
-![현대차 '플레오스'로 본 자동차 구독경제의 개화](assets/news-hyundai-pleos-car-subscription-economy.jpg)
+![완성차가 갑자기 '구독'을 팔기 시작한 진짜 이유](assets/news-hyundai-pleos-car-subscription-economy.jpg)
 
 자동차가 '한 번 사면 끝'인 내구재에서 출고 이후에도 계속 진화하는 소프트웨어 플랫폼으로 바뀌고 있다. 현대자동차그룹이 통합 소프트웨어 브랜드 '플레오스(Pleos)'를 앞세워 이 전환을 공식화하면서, 국내에서도 자동차 구독경제가 본격적인 논의 대상으로 떠올랐다. 차량의 기능과 서비스를 무선 업데이트로 사고파는 시대가 성큼 다가온 것이다.
 
