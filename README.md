@@ -9,10 +9,10 @@ npm run publish:dry        # 무엇이 올라갈지 미리보기 (발행 안 함
 npm run publish            # 실제 발행
 ```
 
-> 🚨 **자동 발행은 현재 꺼져 있습니다.** 2026-07-24 봇 차단 사건 이후 GitHub Actions
-> 워크플로를 `publish.yml.disabled` 로 비활성화했습니다. 발행은 지금 **사람이
-> 속도를 보면서 수동으로만** 합니다. 반드시 [발행 속도 규칙](#-발행-속도-규칙-반드시-읽을-것)
-> 을 읽고 나서 발행하세요.
+> 🚨 **GitHub Actions 자동 발행은 꺼져 있습니다** (`publish.yml.disabled`).
+> 2026-07-24 봇 차단 사건 이후 코드에 속도 가드가 들어갔지만, 재개는 계정 본인확인과
+> 쿨다운을 마친 뒤 **사람이 수동으로** 시작합니다.
+> → [발행 속도 규칙](#-발행-속도-규칙-반드시-읽을-것)
 
 처음 설치라면 → [`docs/setup.md`](docs/setup.md) (인증정보 발급, 한 번만).
 
@@ -28,14 +28,13 @@ blog/
 ├── .publish-state.json # 파일별 발행 상태·원격 ID·본문 해시 (중복 발행 방지)
 ├── server/index.mjs    # 로컬 관리 UI (Express, 127.0.0.1 전용)
 ├── scripts/
-│   ├── publish.mjs         # 전체 발행 (--dry-run · --only= · --targets=)
-│   ├── publish-one.mjs     # 딱 한 편만 발행 (드립용)
-│   ├── drip-publish.sh     # ⚠️ 구식 — 고정 간격 루프. 아래 경고 참고
+│   ├── publish.mjs         # 발행 (--dry-run · --only= · --targets=)
+│   ├── publish-one.mjs     # 딱 한 편만 발행
 │   ├── reconcile.mjs       # 원격 글과 로컬을 제목으로 매칭해 상태 파일 복구
 │   ├── get-token.mjs       # OAuth 리프레시 토큰 발급 (최초 1회)
 │   └── lib/
 │       ├── adapters/       # 플랫폼별 어댑터 (blogger · wordpress · devto)
-│       ├── publisher.mjs   # 발행 오케스트레이션
+│       ├── publisher.mjs   # 발행 오케스트레이션 + 속도 가드 (캡·간격·쿨다운)
 │       ├── posts.mjs content.mjs render.mjs   # 파일 읽기 · 마크다운 → HTML
 │       └── state.mjs       # .publish-state.json 읽기/쓰기
 └── docs/
@@ -123,20 +122,27 @@ date: 2026-07-21
 발행이 막혔다. 차단된 뒤 12시간 동안 100회 넘게 재시도한 것이 결정타였다.
 전체 분석 → [`docs/blogger-bot-block-guide.md`](docs/blogger-bot-block-guide.md)
 
-지켜야 할 것:
+**코드가 지금 강제하는 것** (`scripts/lib/`, 가이드 §5):
 
-- **`403` 은 재시도 금지.** 재시도해도 절대 안 풀리고 봇 플래그만 깊어진다.
-- **글 사이 최소 45~90분**, 하루 소량부터 램프업 (가이드 §4-1 표).
-- **고정 간격 금지** — 정확히 4분 간격 같은 규칙성이 볼륨보다 강한 봇 신호다.
-- 발행 시간대는 **07:00~23:00** 만.
+| 가드 | 동작 | 조절 |
+|---|---|---|
+| 403/401 = FATAL | 재시도 0회로 즉시 중단. 429/5xx만 캡드 백오프(최대 3)+지터 | — |
+| 일일 캡 | 상한 도달 시 그날 발행 종료 | `MAX_POSTS_PER_DAY` (기본 3) |
+| 랜덤 간격 | 글 사이 랜덤 대기 (고정 간격이 봇 신호라서) | `PUBLISH_MIN_GAP_MS` / `PUBLISH_MAX_GAP_MS` (기본 45~90분) |
+| 영속 서킷브레이커 | 403 발생 시 `blockedUntil` 을 상태파일에 기록 → **재실행해도** 쿨다운 동안 발행 안 함 | `BLOCK_COOLDOWN_HOURS` (기본 24) |
 
-> ⚠️ **`scripts/drip-publish.sh` 는 이 규칙을 어긴다** — 고정 240초 간격으로 최대 45회
-> 루프한다. 사건 당시 문제가 된 바로 그 패턴이라 **쓰지 말 것.** 한 편씩 올리려면
-> `node --env-file=.env scripts/publish-one.mjs` 를 사람이 간격을 두고 직접 실행한다.
->
-> 코드 차원의 방지책(403 즉시 중단·일일 캡·영속 서킷브레이커)은 **아직 미반영**이다.
-> 현재 안전한 이유는 코드가 고쳐져서가 아니라 **자동화를 꺼놨기 때문**이다.
-> 자동 발행을 다시 켜기 전에 가이드 §5 의 1·3·4 를 먼저 반영할 것.
+재개할 때 권장값 (`.env`):
+
+```bash
+MAX_POSTS_PER_DAY=1          # 첫 주는 1편/일
+PUBLISH_MIN_GAP_MS=2700000   # 45분
+PUBLISH_MAX_GAP_MS=5400000   # 90분
+BLOCK_COOLDOWN_HOURS=24
+```
+
+**사람이 여전히 지켜야 할 것:** 발행 시간대는 **07:00~23:00** 만, 하루 소량부터
+램프업(가이드 §4-1 표), 그리고 **재개 전에 계정 본인확인과 쿨다운을 마칠 것.**
+코드 가드는 사고를 줄여줄 뿐 이미 걸린 플래그를 풀어주지는 않는다.
 
 ### 상태가 꼬였을 때
 

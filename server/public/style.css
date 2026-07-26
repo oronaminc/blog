@@ -120,6 +120,10 @@ button { font-family: inherit; }
 .brand .logo { color: var(--accent); font-size: 17px; }
 .blog-name { color: var(--text-dim); font-weight: 500; font-size: 12.5px; text-decoration: none; }
 .blog-name:hover { color: var(--accent); }
+.target-chips { display: inline-flex; gap: 4px; margin-left: 6px; }
+.tchip { font-size: 10.5px; font-weight: 600; padding: 2px 7px; border-radius: 999px; }
+.tchip.on { background: rgba(64,200,119,.16); color: var(--green); }
+.tchip.off { background: var(--surface-3); color: var(--text-mut); }
 .actions { display: flex; gap: 7px; align-items: center; }
 
 /* ── Banner ── */

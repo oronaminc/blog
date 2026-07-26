@@ -61,6 +61,18 @@ async function loadLabels() {
   try { state.labels = await api('/api/labels'); } catch {}
 }
 
+// ── 발행 대상(어댑터) 상태 칩 ─────────────────────
+async function loadTargets() {
+  try {
+    const { adapters } = await api('/api/targets');
+    state.adapters = adapters;
+    const el = $('target-chips');
+    el.innerHTML = adapters.map((a) =>
+      `<span class="tchip ${a.configured ? 'on' : 'off'}" title="${a.configured ? '설정됨' : '미설정: ' + a.missing.join(', ')}">${escapeHtml(a.label)}</span>`
+    ).join('');
+  } catch {}
+}
+
 // ── 목록 ──────────────────────────────────────────
 async function loadPosts() {
   state.posts = await api('/api/posts');
@@ -482,5 +494,6 @@ function bind() {
 // ── 시작 ──────────────────────────────────────────
 bind();
 loadStatus();
+loadTargets();
 loadLabels();
 loadPosts();

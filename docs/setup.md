@@ -76,20 +76,23 @@ npm run publish       # 실제 발행 (posts/ 의 글을 Blogger 로)
 
 ## 8. GitHub Actions(자동 발행) — 현재 비활성
 
-> ⚠️ **지금은 꺼져 있습니다.** 워크플로 파일은 `.github/workflows/publish.yml.disabled`
-> 로 이름이 바뀌어 있어 push 해도 자동 발행되지 않습니다.
-> 봇 차단 사건(2026-07-24) 이후 **속도 제어가 되는 수동 발행**으로 전환했기 때문입니다 —
-> 배경은 [`blogger-bot-block-guide.md`](blogger-bot-block-guide.md) 참고.
-> 현재 발행 방법은 [`../README.md`](../README.md) 의 "발행하기" 를 보세요.
+> ⚠️ **지금은 꺼져 있습니다.** 워크플로 파일이 `.github/workflows/publish.yml.disabled`
+> 라서 push 해도 자동 발행되지 않습니다. 봇 차단 사건(2026-07-24) 이후 **사람이 속도를
+> 보면서 하는 수동 발행**으로 전환했기 때문입니다 —
+> 배경은 [`blogger-bot-block-guide.md`](blogger-bot-block-guide.md),
+> 현재 발행 방법과 속도 가드는 [`../README.md`](../README.md) 참고.
 
-다시 켜려면 (**램프업 규칙을 코드에 반영한 뒤에** 하세요):
+다시 켜려면:
 
 1. 저장소 **Settings → Secrets and variables → Actions → New repository secret** 에서
    아래 4개를 `.env` 와 똑같은 값으로 등록:
    `BLOG_ID` · `GOOGLE_CLIENT_ID` · `GOOGLE_CLIENT_SECRET` · `GOOGLE_REFRESH_TOKEN`
-2. `publish.yml.disabled` → `publish.yml` 로 이름 변경.
+2. 속도 가드 환경변수(`MAX_POSTS_PER_DAY` 등)도 시크릿/변수로 함께 등록.
+   등록하지 않으면 기본값(하루 3편)이 쓰입니다.
+3. `publish.yml.disabled` → `publish.yml` 로 이름 변경.
 
 그러면 `posts/` 에 글을 추가하고 `git push` 할 때 자동 발행됩니다.
+**계정 본인확인과 쿨다운을 마친 뒤에** 켜세요.
 
 ---
 
