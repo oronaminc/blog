@@ -74,17 +74,22 @@ npm run publish:dry   # 실제 발행 없이 무엇이 올라갈지 미리보기
 npm run publish       # 실제 발행 (posts/ 의 글을 Blogger 로)
 ```
 
-## 8. GitHub Actions(자동 발행) 연결
+## 8. GitHub Actions(자동 발행) — 현재 비활성
 
-저장소 **Settings → Secrets and variables → Actions → New repository secret** 에서
-아래 4개를 `.env` 와 똑같은 값으로 등록:
+> ⚠️ **지금은 꺼져 있습니다.** 워크플로 파일은 `.github/workflows/publish.yml.disabled`
+> 로 이름이 바뀌어 있어 push 해도 자동 발행되지 않습니다.
+> 봇 차단 사건(2026-07-24) 이후 **속도 제어가 되는 수동 발행**으로 전환했기 때문입니다 —
+> 배경은 [`blogger-bot-block-guide.md`](blogger-bot-block-guide.md) 참고.
+> 현재 발행 방법은 [`../README.md`](../README.md) 의 "발행하기" 를 보세요.
 
-- `BLOG_ID`
-- `GOOGLE_CLIENT_ID`
-- `GOOGLE_CLIENT_SECRET`
-- `GOOGLE_REFRESH_TOKEN`
+다시 켜려면 (**램프업 규칙을 코드에 반영한 뒤에** 하세요):
 
-등록 후에는 `posts/` 에 글을 추가하고 `git push` 하면 자동 발행됩니다.
+1. 저장소 **Settings → Secrets and variables → Actions → New repository secret** 에서
+   아래 4개를 `.env` 와 똑같은 값으로 등록:
+   `BLOG_ID` · `GOOGLE_CLIENT_ID` · `GOOGLE_CLIENT_SECRET` · `GOOGLE_REFRESH_TOKEN`
+2. `publish.yml.disabled` → `publish.yml` 로 이름 변경.
+
+그러면 `posts/` 에 글을 추가하고 `git push` 할 때 자동 발행됩니다.
 
 ---
 
@@ -133,16 +138,20 @@ npm run web       # http://localhost:4599 접속
 
 ---
 
-## 공개 블로그 테마 적용
+## 공개 블로그 테마
 
-`theme/news.xml` — 반응형·한글 타이포·다크모드 지원 커스텀 Blogger 테마.
-(Blogger API 로는 테마를 못 바꿔서, 대시보드에서 직접 업로드합니다.)
+**현재 저장소에 커스텀 테마 파일은 없습니다.** 예전에 `theme/news.xml` 을 두고 썼지만
+Blogger 에서 위젯 렌더링이 실패해 되돌렸습니다 (커밋 `4aee141`). 지금은 Blogger 기본
+테마를 대시보드에서 직접 고릅니다.
 
-1. https://www.blogger.com → 해당 블로그 선택
-2. 좌측 **테마(Theme)** 메뉴
-3. **Customize** 버튼 옆 **▾(아래 화살표)** 클릭 → **백업/복원(Backup/Restore)**
-4. **먼저 현재 테마 백업(Download)** 을 받아두세요 (문제 시 즉시 복구용)
-5. **업로드(Upload)** → `theme/news.xml` 선택 → 저장
-6. 색상은 **테마 → Customize → 고급(Advanced)** 에서 `keycolor` 로 변경 가능
+커스텀 테마를 다시 만든다면 (Blogger API 로는 테마를 못 바꿔서 수동 업로드입니다):
 
-> 업로드 전 로컬 검증: `xmllint --noout theme/news.xml` (well-formed 여부가 Blogger의 첫 거부 관문)
+1. https://www.blogger.com → 해당 블로그 선택 → 좌측 **테마(Theme)**
+2. **Customize** 옆 **▾** → **백업/복원(Backup/Restore)**
+3. **먼저 현재 테마 백업(Download)** — 문제 시 즉시 복구용
+4. **업로드(Upload)** → `.xml` 선택 → 저장
+5. 색상은 **테마 → Customize → 고급(Advanced)** 의 `keycolor`
+
+> 업로드 전 로컬 검증: `xmllint --noout <파일>.xml`
+> (well-formed 여부가 Blogger 의 첫 거부 관문 — 위젯 렌더링 실패는 그 다음 관문이라
+> xmllint 를 통과해도 안 될 수 있습니다. 이전 테마가 여기서 걸렸습니다.)

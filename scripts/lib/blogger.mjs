@@ -48,11 +48,18 @@ export function createClient(accessToken, blogId) {
       const text = await res.text();
       if (res.ok) return text ? JSON.parse(text) : {};
 
-      const retryable =
-        res.status === 429 ||
-        (res.status === 403 && /rateLimitExceeded|userRateLimitExceeded/i.test(text));
-      if (retryable && attempt < 4) {
-        await sleep(1000 * 2 ** attempt);
+      // ⚠️ 403/401 은 재시도 금지(FATAL). 남용/본인확인 차단이며, 재시도하면
+      //    봇 플래그만 깊어진다(2026-07-24 사건). 즉시 throw 하고 상위 서킷브레이커가 처리.
+      //    재시도는 429/5xx(일시 오류)만, 캡드 지수 백오프+지터, 최대 3회.
+      if (res.status === 403 || res.status === 401) {
+        const e = new Error(`Blogger API ${method} ${path} 차단 (${res.status}): ${text}`);
+        e.fatal = true;
+        e.status = res.status;
+        throw e;
+      }
+      const retryable = res.status === 429 || (res.status >= 500 && res.status < 600);
+      if (retryable && attempt < 3) {
+        await sleep(Math.min(1000 * 2 ** attempt + (Date.now() % 1000), 32000));
         continue;
       }
       throw new Error(`Blogger API ${method} ${path} 실패 (${res.status}): ${text}`);

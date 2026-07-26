@@ -72,6 +72,9 @@ export async function getStatuses() {
 }
 
 // 신규/변경 글 발행. only=파일명, targets=어댑터id 배열(지정 시 그 어댑터만).
+// 봇차단 재발 방지(docs/blogger-bot-block-guide.md §4·§5):
+//  - 403 은 어댑터에서 FATAL(재시도0) → 여기서 circuit break + blockedUntil 영속화
+//  - MAX_POSTS_PER_DAY 하루 발행 캡, 글 간 랜덤 지터 간격
 export async function publishPosts({ dryRun = false, only = null, targets = null, onLog = () => {} } = {}) {
   let files = await listPostFiles();
   if (only) files = files.filter((f) => f === only);
@@ -83,11 +86,29 @@ export async function publishPosts({ dryRun = false, only = null, targets = null
   const canonId = canonicalAdapterId(adapters);
   const state = await loadState();
   const results = [];
-  const delay = Number(process.env.PUBLISH_DELAY_MS || 4000);
   let circuitBroken = false;
+
+  // ── 서킷브레이커: 이전 403 차단이 아직 유효하면 발행 자체를 막는다 ──
+  if (!dryRun && state.blockedUntil && Date.now() < state.blockedUntil) {
+    const mins = Math.ceil((state.blockedUntil - Date.now()) / 60000);
+    throw new Error(`발행 차단 중(서킷브레이커). 이전 403 이후 쿨다운 ${mins}분 남음. docs/blogger-bot-block-guide.md 참고.`);
+  }
+
+  // ── 하루 발행 캡 & 랜덤 간격(지터) ──
+  const MAX_PER_DAY = Number(process.env.MAX_POSTS_PER_DAY || 3); // 신생 블로그 기본 3
+  const MIN_GAP_MS = Number(process.env.PUBLISH_MIN_GAP_MS || 45 * 60 * 1000); // 45분
+  const MAX_GAP_MS = Number(process.env.PUBLISH_MAX_GAP_MS || 90 * 60 * 1000); // 90분
+  const today = new Date().toISOString().slice(0, 10);
+  if (!state.published || state.published.day !== today) state.published = { day: today, count: 0 };
+  let publishedThisRun = 0;
 
   for (const file of files) {
     if (circuitBroken) break;
+    // 하루 캡 도달 시 중단(dry-run 은 제외)
+    if (!dryRun && state.published.count >= MAX_PER_DAY) {
+      onLog(`⏸  하루 발행 상한(${MAX_PER_DAY}편) 도달 — 나머지는 내일. (MAX_POSTS_PER_DAY 로 조정)`);
+      break;
+    }
     const { data, content } = await readPost(file);
     const post = buildPost(file, data, content);
     const fileResult = { file, title: post.title, isDraft: post.isDraft, targets: {} };
@@ -120,13 +141,23 @@ export async function publishPosts({ dryRun = false, only = null, targets = null
         if (adapter.id === canonId && !post.canonicalUrl && res.url) canonicalUrl = res.url;
         fileResult.targets[adapter.id] = { action: prev ? 'update' : 'create', url: res.url };
         onLog(`✅ [${adapter.id}] ${file} → ${res.url || res.remoteId}`);
+        state.published.count += 1;
+        publishedThisRun += 1;
         await saveState(state);
-        await sleep(delay);
+        // 글 간 랜덤 지터 간격(고정 cron 패턴 방지). 하루 캡의 마지막 글이면 생략.
+        if (state.published.count < MAX_PER_DAY) {
+          const gap = MIN_GAP_MS + (Date.now() % Math.max(1, MAX_GAP_MS - MIN_GAP_MS));
+          onLog(`⏲  다음 발행까지 ${Math.round(gap / 60000)}분 대기(지터)…`);
+          await sleep(gap);
+        }
       } catch (err) {
         if (err.fatal) {
           circuitBroken = true;
           fileResult.targets[adapter.id] = { action: 'blocked', error: err.message };
-          onLog(`🛑 [${adapter.id}] 발행 차단(403) — 전체 중단. ${err.message}`);
+          // blockedUntil 영속화: 재실행해도 쿨다운 동안 발행 안 함(재시도 폭풍 방지)
+          const cooldownH = Number(process.env.BLOCK_COOLDOWN_HOURS || 24);
+          state.blockedUntil = Date.now() + cooldownH * 3600 * 1000;
+          onLog(`🛑 [${adapter.id}] 403 차단 — 전체 중단 + ${cooldownH}h 쿨다운 기록. ${err.message}`);
         } else {
           fileResult.targets[adapter.id] = { action: 'error', error: err.message };
           onLog(`❌ [${adapter.id}] ${file} 실패: ${err.message}`);
@@ -139,7 +170,7 @@ export async function publishPosts({ dryRun = false, only = null, targets = null
 
   if (!dryRun) await saveState(state);
   if (circuitBroken) {
-    onLog('⚠️  403 차단 감지 → 발행 중단. docs/blogger-bot-block-guide.md 참고(계정 쿨다운 필요).');
+    onLog('⚠️  403 차단 감지 → 발행 중단 + 쿨다운 기록. docs/blogger-bot-block-guide.md 참고(계정 본인확인 필요).');
   }
   return results;
 }
