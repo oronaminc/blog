@@ -1,121 +1,225 @@
 {
-  "2026-07-21-hello-world.md": {
-    "postId": "5079676939617921237",
-    "url": "https://trend-cracker.blogspot.com/",
-    "hash": "cd5d0973779e473c",
-    "isDraft": true,
-    "updated": "2026-07-21T09:55:49-07:00"
+  "version": 2,
+  "posts": {
+    "2026-07-21-hello-world.md": {
+      "sourceHash": "cd5d0973779e473c",
+      "targets": {
+        "blogger": {
+          "remoteId": "5079676939617921237",
+          "url": "https://trend-cracker.blogspot.com/",
+          "hash": "cd5d0973779e473c",
+          "isDraft": true,
+          "updated": "2026-07-21T09:55:49-07:00"
+        }
+      }
+    },
+    "2026-07-21-blogger-auto-publish.md": {
+      "sourceHash": "b8528348837709d5",
+      "targets": {
+        "blogger": {
+          "remoteId": "5969439927980666937",
+          "url": "https://trend-cracker.blogspot.com/2026/07/git-push-blogger.html",
+          "hash": "b8528348837709d5",
+          "isDraft": false,
+          "updated": "2026-07-21T09:55:53-07:00"
+        }
+      }
+    },
+    "2026-07-21-google-api-key-vs-oauth.md": {
+      "sourceHash": "a738f52fff4ac778",
+      "targets": {
+        "blogger": {
+          "remoteId": "3116520351595107954",
+          "url": "https://trend-cracker.blogspot.com/2026/07/google-api-vs-oauth-20.html",
+          "hash": "a738f52fff4ac778",
+          "isDraft": false,
+          "updated": "2026-07-21T09:55:51-07:00"
+        }
+      }
+    },
+    "2026-07-21-blog-cms-build.md": {
+      "sourceHash": "c04ca22676baa24f",
+      "targets": {
+        "blogger": {
+          "remoteId": "6454541051047848615",
+          "url": "https://trend-cracker.blogspot.com/2026/07/github-blogger-cms.html",
+          "hash": "c04ca22676baa24f",
+          "isDraft": false,
+          "updated": "2026-07-21T09:55:55-07:00"
+        }
+      }
+    },
+    "2026-07-23-yeon-sangho-lost-paradise-toronto-psychology.md": {
+      "sourceHash": "8d744aac212d6109",
+      "targets": {
+        "blogger": {
+          "remoteId": "3781380941229944309",
+          "url": "https://trend-cracker.blogspot.com/2026/07/1.html",
+          "hash": "8d744aac212d6109",
+          "isDraft": false,
+          "updated": "2026-07-22T10:09:59-07:00"
+        }
+      }
+    },
+    "2026-07-23-yeoju-crocodile-curiosity-gap-psychology.md": {
+      "sourceHash": "7d5718bad9f1efe4",
+      "targets": {
+        "blogger": {
+          "remoteId": "97487098551435669",
+          "url": "https://trend-cracker.blogspot.com/2026/07/1_01665543669.html",
+          "hash": "7d5718bad9f1efe4",
+          "isDraft": false,
+          "updated": "2026-07-22T10:10:00-07:00"
+        }
+      }
+    },
+    "2026-07-23-yen-collapse-viral-psychology.md": {
+      "sourceHash": "f911becf83c217a9",
+      "targets": {
+        "blogger": {
+          "remoteId": "8029425800694719846",
+          "url": "https://trend-cracker.blogspot.com/2026/07/blog-post.html",
+          "hash": "f911becf83c217a9",
+          "isDraft": false,
+          "updated": "2026-07-22T10:10:02-07:00"
+        }
+      }
+    },
+    "2026-07-23-why-youtube-block-news-goes-viral-psychology.md": {
+      "sourceHash": "c0e38534f639b590",
+      "targets": {
+        "blogger": {
+          "remoteId": "2630212881294545577",
+          "url": "https://trend-cracker.blogspot.com/2026/07/it-1.html",
+          "hash": "c0e38534f639b590",
+          "isDraft": false,
+          "updated": "2026-07-22T10:10:03-07:00"
+        }
+      }
+    },
+    "2026-07-23-why-north-korea-tactical-road-video-viral-psycholo.md": {
+      "sourceHash": "d9a7090c70d6a6d7",
+      "targets": {
+        "blogger": {
+          "remoteId": "1347614875802737710",
+          "url": "https://trend-cracker.blogspot.com/2026/07/1_01481341747.html",
+          "hash": "d9a7090c70d6a6d7",
+          "isDraft": false,
+          "updated": "2026-07-22T10:10:05-07:00"
+        }
+      }
+    },
+    "2026-07-23-why-housing-anger-headline-goes-viral.md": {
+      "sourceHash": "d8f1ad50c428383a",
+      "targets": {
+        "blogger": {
+          "remoteId": "8373422621955881000",
+          "url": "https://trend-cracker.blogspot.com/2026/07/1_01625704573.html",
+          "hash": "d8f1ad50c428383a",
+          "isDraft": false,
+          "updated": "2026-07-22T16:55:19-07:00"
+        }
+      }
+    },
+    "2026-07-23-why-avengers-doomsday-teaser-trending-psychology.md": {
+      "sourceHash": "b7285e8d90715fed",
+      "targets": {
+        "blogger": {
+          "remoteId": "1849835479789748947",
+          "url": "https://trend-cracker.blogspot.com/2026/07/190-1.html",
+          "hash": "b7285e8d90715fed",
+          "isDraft": false,
+          "updated": "2026-07-22T17:00:30-07:00"
+        }
+      }
+    },
+    "2026-07-23-viral-trend-psychology-framework.md": {
+      "sourceHash": "9abf2b3422e03f33",
+      "targets": {
+        "blogger": {
+          "remoteId": "244665077959316894",
+          "url": "https://trend-cracker.blogspot.com/2026/07/1-10.html",
+          "hash": "9abf2b3422e03f33",
+          "isDraft": false,
+          "updated": "2026-07-22T17:04:39-07:00"
+        }
+      }
+    },
+    "2026-07-23-valley-entrance-fee-viral-psychology.md": {
+      "sourceHash": "9fe99cb36edaf75f",
+      "targets": {
+        "blogger": {
+          "remoteId": "8769984036844259977",
+          "url": "https://trend-cracker.blogspot.com/2026/07/4-1.html",
+          "hash": "9fe99cb36edaf75f",
+          "isDraft": false,
+          "updated": "2026-07-22T17:08:49-07:00"
+        }
+      }
+    },
+    "2026-07-23-trigger-word-outrage-tribalism-viral-psychology.md": {
+      "sourceHash": "be9163006721b9fb",
+      "targets": {
+        "blogger": {
+          "remoteId": "5693506520673461464",
+          "url": "https://trend-cracker.blogspot.com/2026/07/1_01501185844.html",
+          "hash": "be9163006721b9fb",
+          "isDraft": false,
+          "updated": "2026-07-22T17:12:58-07:00"
+        }
+      }
+    },
+    "2026-07-23-subsidy-news-psychology-why-we-click.md": {
+      "sourceHash": "510a9e2d1ca5570e",
+      "targets": {
+        "blogger": {
+          "remoteId": "3095019342657167642",
+          "url": "https://trend-cracker.blogspot.com/2026/07/blog-post_22.html",
+          "hash": "510a9e2d1ca5570e",
+          "isDraft": false,
+          "updated": "2026-07-22T17:44:26-07:00"
+        }
+      }
+    },
+    "2026-07-23-spiderman-brand-new-day-final-trailer-viral-psycho.md": {
+      "sourceHash": "8d0de9ae46c6bbe9",
+      "targets": {
+        "blogger": {
+          "remoteId": "1782448498915399742",
+          "url": "https://trend-cracker.blogspot.com/2026/07/60.html",
+          "hash": "8d0de9ae46c6bbe9",
+          "isDraft": false,
+          "updated": "2026-07-22T17:48:36-07:00"
+        }
+      }
+    },
+    "2026-07-23-samsung-galaxy-unveiling-viral-psychology.md": {
+      "sourceHash": "de6ef9b324510707",
+      "targets": {
+        "blogger": {
+          "remoteId": "4437387266489904272",
+          "url": "https://trend-cracker.blogspot.com/2026/07/1_0687619823.html",
+          "hash": "de6ef9b324510707",
+          "isDraft": false,
+          "updated": "2026-07-22T17:52:45-07:00"
+        }
+      }
+    },
+    "2026-07-26-news-livelihood-recovery-fund-300000-won-how.md": {
+      "sourceHash": null,
+      "targets": {
+        "naver": {
+          "remoteId": "export:2026-07-26-news-livelihood-recovery-fund-300000-won-how",
+          "url": null,
+          "isDraft": true,
+          "exportPath": "/Users/1113177/Desktop/github/blog/exports/naver/2026-07-26-news-livelihood-recovery-fund-300000-won-how.html",
+          "hash": "403f27795e2ca133"
+        }
+      }
+    }
   },
-  "2026-07-21-blogger-auto-publish.md": {
-    "postId": "5969439927980666937",
-    "url": "https://trend-cracker.blogspot.com/2026/07/git-push-blogger.html",
-    "hash": "b8528348837709d5",
-    "isDraft": false,
-    "updated": "2026-07-21T09:55:53-07:00"
-  },
-  "2026-07-21-google-api-key-vs-oauth.md": {
-    "postId": "3116520351595107954",
-    "url": "https://trend-cracker.blogspot.com/2026/07/google-api-vs-oauth-20.html",
-    "hash": "a738f52fff4ac778",
-    "isDraft": false,
-    "updated": "2026-07-21T09:55:51-07:00"
-  },
-  "2026-07-21-blog-cms-build.md": {
-    "postId": "6454541051047848615",
-    "url": "https://trend-cracker.blogspot.com/2026/07/github-blogger-cms.html",
-    "hash": "c04ca22676baa24f",
-    "isDraft": false,
-    "updated": "2026-07-21T09:55:55-07:00"
-  },
-  "2026-07-23-yeon-sangho-lost-paradise-toronto-psychology.md": {
-    "postId": "3781380941229944309",
-    "url": "https://trend-cracker.blogspot.com/2026/07/1.html",
-    "hash": "8d744aac212d6109",
-    "isDraft": false,
-    "updated": "2026-07-22T10:09:59-07:00"
-  },
-  "2026-07-23-yeoju-crocodile-curiosity-gap-psychology.md": {
-    "postId": "97487098551435669",
-    "url": "https://trend-cracker.blogspot.com/2026/07/1_01665543669.html",
-    "hash": "7d5718bad9f1efe4",
-    "isDraft": false,
-    "updated": "2026-07-22T10:10:00-07:00"
-  },
-  "2026-07-23-yen-collapse-viral-psychology.md": {
-    "postId": "8029425800694719846",
-    "url": "https://trend-cracker.blogspot.com/2026/07/blog-post.html",
-    "hash": "f911becf83c217a9",
-    "isDraft": false,
-    "updated": "2026-07-22T10:10:02-07:00"
-  },
-  "2026-07-23-why-youtube-block-news-goes-viral-psychology.md": {
-    "postId": "2630212881294545577",
-    "url": "https://trend-cracker.blogspot.com/2026/07/it-1.html",
-    "hash": "c0e38534f639b590",
-    "isDraft": false,
-    "updated": "2026-07-22T10:10:03-07:00"
-  },
-  "2026-07-23-why-north-korea-tactical-road-video-viral-psycholo.md": {
-    "postId": "1347614875802737710",
-    "url": "https://trend-cracker.blogspot.com/2026/07/1_01481341747.html",
-    "hash": "d9a7090c70d6a6d7",
-    "isDraft": false,
-    "updated": "2026-07-22T10:10:05-07:00"
-  },
-  "2026-07-23-why-housing-anger-headline-goes-viral.md": {
-    "postId": "8373422621955881000",
-    "url": "https://trend-cracker.blogspot.com/2026/07/1_01625704573.html",
-    "hash": "d8f1ad50c428383a",
-    "isDraft": false,
-    "updated": "2026-07-22T16:55:19-07:00"
-  },
-  "2026-07-23-why-avengers-doomsday-teaser-trending-psychology.md": {
-    "postId": "1849835479789748947",
-    "url": "https://trend-cracker.blogspot.com/2026/07/190-1.html",
-    "hash": "b7285e8d90715fed",
-    "isDraft": false,
-    "updated": "2026-07-22T17:00:30-07:00"
-  },
-  "2026-07-23-viral-trend-psychology-framework.md": {
-    "postId": "244665077959316894",
-    "url": "https://trend-cracker.blogspot.com/2026/07/1-10.html",
-    "hash": "9abf2b3422e03f33",
-    "isDraft": false,
-    "updated": "2026-07-22T17:04:39-07:00"
-  },
-  "2026-07-23-valley-entrance-fee-viral-psychology.md": {
-    "postId": "8769984036844259977",
-    "url": "https://trend-cracker.blogspot.com/2026/07/4-1.html",
-    "hash": "9fe99cb36edaf75f",
-    "isDraft": false,
-    "updated": "2026-07-22T17:08:49-07:00"
-  },
-  "2026-07-23-trigger-word-outrage-tribalism-viral-psychology.md": {
-    "postId": "5693506520673461464",
-    "url": "https://trend-cracker.blogspot.com/2026/07/1_01501185844.html",
-    "hash": "be9163006721b9fb",
-    "isDraft": false,
-    "updated": "2026-07-22T17:12:58-07:00"
-  },
-  "2026-07-23-subsidy-news-psychology-why-we-click.md": {
-    "postId": "3095019342657167642",
-    "url": "https://trend-cracker.blogspot.com/2026/07/blog-post_22.html",
-    "hash": "510a9e2d1ca5570e",
-    "isDraft": false,
-    "updated": "2026-07-22T17:44:26-07:00"
-  },
-  "2026-07-23-spiderman-brand-new-day-final-trailer-viral-psycho.md": {
-    "postId": "1782448498915399742",
-    "url": "https://trend-cracker.blogspot.com/2026/07/60.html",
-    "hash": "8d0de9ae46c6bbe9",
-    "isDraft": false,
-    "updated": "2026-07-22T17:48:36-07:00"
-  },
-  "2026-07-23-samsung-galaxy-unveiling-viral-psychology.md": {
-    "postId": "4437387266489904272",
-    "url": "https://trend-cracker.blogspot.com/2026/07/1_0687619823.html",
-    "hash": "de6ef9b324510707",
-    "isDraft": false,
-    "updated": "2026-07-22T17:52:45-07:00"
+  "published": {
+    "day": "2026-07-26",
+    "count": 1
   }
 }

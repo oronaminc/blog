@@ -299,6 +299,19 @@ async function deleteCurrent() {
   toast('삭제됨', 'ok');
   await loadPosts();
 }
+// 네이버용 HTML을 클립보드에 복사 (네이버는 API 없어 수동 붙여넣기)
+async function copyNaver() {
+  if (!state.current) return;
+  if (state.dirty) await saveCurrent(true);
+  try {
+    const { title, tags, category, html } = await api('/api/naver/' + encodeURIComponent(state.current.file));
+    await navigator.clipboard.writeText(html);
+    toast(`네이버용 HTML 복사됨 ✓\n① blog.naver.com 글쓰기 → 에디터 '< >'(HTML) 모드\n② 붙여넣기(⌘V)\n제목: ${title}\n소메뉴: ${category || '-'} · 태그: ${tags}`, 'ok');
+  } catch (e) {
+    toast('복사 실패: ' + e.message + '\n(브라우저가 클립보드를 막았을 수 있어요)', 'err');
+  }
+}
+
 async function publishOne() {
   if (!state.current) return;
   if (state.dirty) await saveCurrent(true);
@@ -442,6 +455,7 @@ function bind() {
   $('btn-new').onclick = createNew;
   $('btn-save').onclick = () => saveCurrent(false);
   $('btn-publish').onclick = publishOne;
+  $('btn-naver').onclick = copyNaver;
   $('btn-delete').onclick = deleteCurrent;
   $('btn-publish-all').onclick = () => publishAll(false);
   $('btn-dry').onclick = () => publishAll(true);

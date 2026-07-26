@@ -3,16 +3,15 @@ import { createDevtoAdapter } from './devto.mjs';
 import { createWordpressAdapter } from './wordpress.mjs';
 import { createHatenaAdapter } from './hatena.mjs';
 import { createMattersAdapter } from './matters.mjs';
-import { createNaverAdapter } from './naver.mjs';
 
 // 어댑터 레지스트리. 각 팩토리는 계약을 구현한 어댑터 객체를 반환.
+// (네이버는 API가 없어 자동발행 어댑터에서 제외 — CMS '네이버 복사' 버튼으로 수동 붙여넣기)
 const FACTORIES = [
   createBloggerAdapter,   // 한국(현재)
   createWordpressAdapter, // 글로벌·소유허브
   createDevtoAdapter,     // 글로벌 개발
   createHatenaAdapter,    // 일본
   createMattersAdapter,   // 대만
-  createNaverAdapter,     // 한국(반자동 export)
 ];
 
 // canonical 우선순위: 소유 허브(WordPress) > Blogger. 목록의 앞쪽이 먼저 발행되어

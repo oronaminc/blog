@@ -155,6 +155,20 @@ app.post(
   })
 );
 
+// ── 네이버용 HTML (클립보드 복사용) ─────────────
+// 네이버는 API 없음 → 발행용 HTML(이미지 절대URL 포함)을 만들어 복붙에 쓴다.
+app.get(
+  '/api/naver/:file',
+  wrap(async (req, res) => {
+    const { data, content } = await readPost(req.params.file);
+    const post = buildPost(req.params.file, data, content);
+    const tags = post.labels.join(', ');
+    // 네이버 스마트에디터 붙여넣기용: 제목 h1 + 본문 HTML
+    const html = `<h1>${post.title}</h1>\n${post.html}`;
+    res.json({ title: post.title, tags, category: (post.category || []).join('>'), html });
+  })
+);
+
 // ── 전체 라벨 (자동완성) ────────────────────────
 app.get(
   '/api/labels',

@@ -102,10 +102,11 @@ export async function publishPosts({ dryRun = false, only = null, targets = null
   if (!state.published || state.published.day !== today) state.published = { day: today, count: 0 };
   let publishedThisRun = 0;
 
+  const onlyExport = adapters.every((a) => a.kind === 'export');
   for (const file of files) {
     if (circuitBroken) break;
-    // 하루 캡 도달 시 중단(dry-run 은 제외)
-    if (!dryRun && state.published.count >= MAX_PER_DAY) {
+    // 하루 캡 도달 시 중단(dry-run·export전용 실행 제외)
+    if (!dryRun && !onlyExport && state.published.count >= MAX_PER_DAY) {
       onLog(`⏸  하루 발행 상한(${MAX_PER_DAY}편) 도달 — 나머지는 내일. (MAX_POSTS_PER_DAY 로 조정)`);
       break;
     }
@@ -141,14 +142,17 @@ export async function publishPosts({ dryRun = false, only = null, targets = null
         if (adapter.id === canonId && !post.canonicalUrl && res.url) canonicalUrl = res.url;
         fileResult.targets[adapter.id] = { action: prev ? 'update' : 'create', url: res.url };
         onLog(`✅ [${adapter.id}] ${file} → ${res.url || res.remoteId}`);
-        state.published.count += 1;
-        publishedThisRun += 1;
         await saveState(state);
-        // 글 간 랜덤 지터 간격(고정 cron 패턴 방지). 하루 캡의 마지막 글이면 생략.
-        if (state.published.count < MAX_PER_DAY) {
-          const gap = MIN_GAP_MS + (Date.now() % Math.max(1, MAX_GAP_MS - MIN_GAP_MS));
-          onLog(`⏲  다음 발행까지 ${Math.round(gap / 60000)}분 대기(지터)…`);
-          await sleep(gap);
+        // export(파일쓰기)는 계정 위험이 없으니 캡·지터 제외. 원격 발행만 적용.
+        if (adapter.kind !== 'export') {
+          state.published.count += 1;
+          publishedThisRun += 1;
+          // 글 간 랜덤 지터 간격(고정 cron 패턴 방지). 하루 캡의 마지막 글이면 생략.
+          if (state.published.count < MAX_PER_DAY) {
+            const gap = MIN_GAP_MS + (Date.now() % Math.max(1, MAX_GAP_MS - MIN_GAP_MS));
+            onLog(`⏲  다음 발행까지 ${Math.round(gap / 60000)}분 대기(지터)…`);
+            await sleep(gap);
+          }
         }
       } catch (err) {
         if (err.fatal) {
