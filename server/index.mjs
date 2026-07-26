@@ -1,11 +1,14 @@
 import express from 'express';
 import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
+import { createHash } from 'node:crypto';
 import TurndownService from 'turndown';
+
+const hashOf = (s) => createHash('sha256').update(s).digest('hex').slice(0, 16);
 
 import { renderMarkdown } from '../scripts/lib/render.mjs';
 import { getAccessToken, createClient } from '../scripts/lib/blogger.mjs';
-import { loadState, saveState } from '../scripts/lib/state.mjs';
+import { loadState, saveState, getTarget, setTarget, setSourceHash, deletePostState } from '../scripts/lib/state.mjs';
 import {
   listPostFiles,
   readPost,
@@ -20,10 +23,11 @@ import {
 import {
   getStatuses,
   publishPosts,
-  buildPost,
   missingEnv,
   requireEnv,
 } from '../scripts/lib/publisher.mjs';
+import { buildPost } from '../scripts/lib/content.mjs';
+import { adapterStatus } from '../scripts/lib/adapters/index.mjs';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const app = express();
@@ -125,16 +129,16 @@ app.delete(
     const alsoRemote = req.query.remote === 'true';
     if (alsoRemote) {
       const state = await loadState();
-      const entry = state[file];
-      if (entry?.postId) {
+      const bloggerTarget = getTarget(state, file, 'blogger');
+      if (bloggerTarget?.remoteId) {
         try {
           const api = await bloggerClient();
-          await api.remove(entry.postId);
+          await api.remove(bloggerTarget.remoteId);
         } catch (err) {
           console.warn('원격 삭제 실패(무시):', err.message);
         }
       }
-      delete state[file];
+      deletePostState(state, file);
       await saveState(state);
     }
     await deletePost(file);
@@ -177,6 +181,14 @@ app.post(
   })
 );
 
+// ── 발행 대상(어댑터) 설정 상태 ─────────────────
+app.get(
+  '/api/targets',
+  wrap(async (req, res) => {
+    res.json({ adapters: adapterStatus() });
+  })
+);
+
 // ── 원격 변경(드리프트) 감지 ────────────────────
 app.get(
   '/api/drift',
@@ -186,12 +198,13 @@ app.get(
     const remoteById = new Map((data.items || []).map((p) => [p.id, p]));
     const state = await loadState();
     const drifted = [];
-    for (const [file, e] of Object.entries(state)) {
-      if (!e.postId) continue;
-      const r = remoteById.get(e.postId);
+    for (const [file, ps] of Object.entries(state.posts)) {
+      const bt = ps.targets?.blogger;
+      if (!bt?.remoteId) continue;
+      const r = remoteById.get(bt.remoteId);
       if (!r) {
         drifted.push({ file, reason: 'deleted' });
-      } else if (e.updated && r.updated && new Date(r.updated) > new Date(e.updated)) {
+      } else if (bt.updated && r.updated && new Date(r.updated) > new Date(bt.updated)) {
         drifted.push({ file, reason: 'remote-newer', remoteUpdated: r.updated });
       }
     }
@@ -203,9 +216,9 @@ app.get(
 app.post(
   '/api/publish',
   wrap(async (req, res) => {
-    const { file = null, dryRun = false } = req.body || {};
+    const { file = null, dryRun = false, targets = null } = req.body || {};
     const logs = [];
-    const results = await publishPosts({ only: file, dryRun, onLog: (m) => logs.push(m) });
+    const results = await publishPosts({ only: file, dryRun, targets, onLog: (m) => logs.push(m) });
     res.json({ results, logs });
   })
 );
@@ -237,27 +250,27 @@ app.post(
     const data = await api.list({ maxResults: 100 });
     const td = new TurndownService({ headingStyle: 'atx', codeBlockStyle: 'fenced' });
     const state = await loadState();
-    const existingByPostId = new Map(
-      Object.entries(state).map(([f, e]) => [e.postId, f])
+    const existingByRemoteId = new Map(
+      Object.entries(state.posts).map(([f, ps]) => [ps.targets?.blogger?.remoteId, f])
     );
 
     const imported = [];
     for (const p of data.items || []) {
-      if (existingByPostId.has(p.id)) continue; // 이미 로컬에 있음
+      if (existingByRemoteId.has(p.id)) continue; // 이미 로컬에 있음
       const dateStr = (p.published || new Date().toISOString()).slice(0, 10);
       const md = td.turndown(p.content || '');
       const isDraft = p.status === 'DRAFT';
-      const fmData = {
-        title: p.title || '제목 없음',
-        labels: p.labels || [],
-        draft: isDraft,
-        date: dateStr,
-      };
+      const fmData = { title: p.title || '제목 없음', labels: p.labels || [], draft: isDraft, date: dateStr };
       const file = uniqueFilename(p.title || 'post', dateStr);
       await writePost(file, { data: fmData, content: md });
-      // 재발행 시 중복/덮어쓰기 방지: 현재 렌더 해시로 in-sync 표시
-      const b = buildPost(fmData, md);
-      state[file] = { postId: p.id, url: p.url, hash: b.hash, isDraft };
+      // 재발행 시 중복/덮어쓰기 방지: 발행됨 상태로 기록(blogger 타겟)
+      const post = buildPost(file, fmData, md);
+      setTarget(state, file, 'blogger', {
+        remoteId: p.id, url: p.url,
+        hash: hashOf(JSON.stringify({ title: post.title, labels: post.labels, isDraft, html: post.html, publishAt: null })),
+        isDraft, updated: p.updated,
+      });
+      setSourceHash(state, file, post.sourceHash);
       imported.push({ file, title: p.title });
     }
     await saveState(state);
