@@ -6,7 +6,7 @@ labels:
   - 일본은행
   - 환율
   - 세계경제
-category:
+category: "경제"
   - 경제
 draft: true
 date: '2026-07-26'

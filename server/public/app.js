@@ -106,9 +106,13 @@ function renderCatFilters() {
   for (const p of state.posts) for (const c of (p.category || [])) counts[c] = (counts[c] || 0) + 1;
   const cats = Object.keys(counts).sort((a, b) => counts[b] - counts[a]);
   state.categories = cats;
-  // 에디터 소메뉴 입력의 자동완성 목록 채우기
+  // 에디터 소메뉴 입력 자동완성: 기본 6개 체계 + 실제 사용된 것(중복 제거)
+  const BASE_CATS = ['연예', '경제', '정치', '스포츠', '라이프', '트렌드'];
   const dl = $('category-list');
-  if (dl) dl.innerHTML = cats.map((c) => `<option value="${escapeHtml(c)}"></option>`).join('');
+  if (dl) {
+    const all = [...new Set([...BASE_CATS, ...cats])];
+    dl.innerHTML = all.map((c) => `<option value="${escapeHtml(c)}"></option>`).join('');
+  }
   const el = $('cat-filters');
   el.innerHTML = '';
   if (!cats.length) return;

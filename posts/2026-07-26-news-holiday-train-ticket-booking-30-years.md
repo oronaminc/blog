@@ -1,6 +1,6 @@
 ---
 title: "명절 기차표 전쟁이 30년째 사라지지 않는 이유"
-category: "생활"
+category: "라이프"
 labels: ["명절", "기차표예매", "코레일", "KTX", "철도"]
 draft: true
 date: 2026-07-26

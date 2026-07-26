@@ -1,6 +1,6 @@
 ---
 title: "장마 끝나면 도심 모기가 급증하는 구조"
-category: "건강"
+category: "라이프"
 labels: ["모기", "방제", "장마철", "감염병 예방", "도시 방역"]
 draft: true
 date: 2026-07-26
