@@ -1,15 +1,9 @@
 ---
-title: 엔저가 길어질수록 세계 경제가 조용히 위험해지는 구조
-labels:
-  - 엔화
-  - 엔 캐리 트레이드
-  - 일본은행
-  - 환율
-  - 세계경제
+title: "엔저가 길어질수록 세계 경제가 조용히 위험해지는 구조"
 category: "경제"
-  - 경제
+labels: ["엔화", "엔 캐리 트레이드", "일본은행", "환율", "세계경제"]
 draft: true
-date: '2026-07-26'
+date: 2026-07-26
 ---
 
 ![엔저가 길어질수록 세계 경제가 조용히 위험해지는 구조](assets/news-yen-collapse-scenario-global-economy.jpg)
