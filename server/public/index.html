@@ -46,11 +46,7 @@
 
       <main class="editor">
         <div class="empty" id="empty-state">
-          <div class="empty-inner">
-            <div class="empty-mark">✶</div>
-            <p class="empty-title">글을 선택하거나 새로 시작하세요</p>
-            <button class="btn btn-primary" onclick="document.getElementById('btn-new').click()">＋ 새 글 쓰기</button>
-          </div>
+          <p class="empty-title">왼쪽에서 글을 선택하세요</p>
         </div>
 
         <div class="editor-inner" id="editor-inner" hidden>
@@ -58,6 +54,7 @@
             <input id="f-title" class="f-title" placeholder="제목을 입력하세요" />
             <div class="meta-row">
               <label class="fld">날짜<input id="f-date" type="date" /></label>
+              <label class="fld" title="블로그 소메뉴/카테고리 (대>소 가능, 예: 경제>재테크)">소메뉴<input id="f-category" autocomplete="off" placeholder="예: 경제" /></label>
               <div class="fld grow labels-field">
                 라벨
                 <input id="f-labels" autocomplete="off" placeholder="쉼표로 구분 (예: 개발, 일상)" />

@@ -205,9 +205,7 @@ button { font-family: inherit; }
 /* ── Editor ── */
 .editor { flex: 1; min-width: 0; display: flex; flex-direction: column; background: var(--bg); }
 .empty { flex: 1; display: grid; place-items: center; }
-.empty-inner { text-align: center; display: flex; flex-direction: column; align-items: center; gap: 14px; }
-.empty-mark { font-size: 40px; color: var(--border); }
-.empty-title { color: var(--text-dim); font-size: 15px; margin: 0; }
+.empty-title { color: var(--text-mut); font-size: 13px; margin: 0; }
 
 .editor-inner { flex: 1; display: flex; flex-direction: column; min-height: 0; }
 .meta { padding: 16px 22px 12px; border-bottom: 1px solid var(--border-soft); }

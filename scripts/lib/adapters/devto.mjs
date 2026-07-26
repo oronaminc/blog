@@ -13,7 +13,9 @@ export function createDevtoAdapter() {
   const headers = { 'api-key': key, 'Content-Type': 'application/json' };
 
   function body(post, canonicalUrl) {
-    const tags = post.labels.map(tag).filter(Boolean).slice(0, 4);
+    // Dev.to 는 카테고리가 없어 소메뉴(category)를 태그로 편입(앞에, 최대 4개)
+    const cats = (post.category || []).map((c) => c.split('>').pop().trim());
+    const tags = [...new Set([...cats, ...post.labels].map(tag).filter(Boolean))].slice(0, 4);
     return {
       article: {
         title: post.title,
@@ -33,7 +35,7 @@ export function createDevtoAdapter() {
     contentFormat: 'markdown',
     capabilities: { canonical: true, update: true, draft: true, schedule: false },
     requiredEnv: ['DEVTO_API_KEY'],
-    hashPayload: (post) => JSON.stringify({ t: post.title, l: post.labels, d: post.isDraft, m: post.markdown, c: post.coverImageUrl }),
+    hashPayload: (post) => JSON.stringify({ t: post.title, l: post.labels, cat: post.category, d: post.isDraft, m: post.markdown, c: post.coverImageUrl }),
 
     async publish(post, ctx = {}) {
       const res = await apiFetch(API, { method: 'POST', headers, body: JSON.stringify(body(post, ctx.canonicalUrl)) }, { platform: 'devto' });

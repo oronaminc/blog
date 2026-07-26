@@ -9,23 +9,26 @@ export function createWordpressAdapter() {
   const headers = { Authorization: auth, 'Content-Type': 'application/json' };
   const api = (p) => `${base}/wp-json/wp/v2${p}`;
 
-  // 태그 이름 → term ID (있으면 재사용, 없으면 생성)
-  async function resolveTags(labels) {
+  // 이름 → term ID (있으면 재사용, 없으면 생성). taxonomy = 'tags' | 'categories'
+  async function resolveTerms(names, taxonomy) {
     const ids = [];
-    for (const name of labels) {
+    for (const name of names) {
       try {
-        const found = (await apiFetch(api(`/tags?search=${encodeURIComponent(name)}`), { headers }, { platform: 'wordpress' })).json();
+        const found = (await apiFetch(api(`/${taxonomy}?search=${encodeURIComponent(name)}`), { headers }, { platform: 'wordpress' })).json();
         const exact = Array.isArray(found) ? found.find((t) => t.name === name) : null;
         if (exact) { ids.push(exact.id); continue; }
-        const created = (await apiFetch(api('/tags'), { method: 'POST', headers, body: JSON.stringify({ name }) }, { platform: 'wordpress' })).json();
+        const created = (await apiFetch(api(`/${taxonomy}`), { method: 'POST', headers, body: JSON.stringify({ name }) }, { platform: 'wordpress' })).json();
         if (created?.id) ids.push(created.id);
-      } catch { /* 태그 실패는 무시(본문 발행 우선) */ }
+      } catch { /* 실패는 무시(본문 발행 우선) */ }
     }
     return ids;
   }
 
   async function body(post) {
-    const tagIds = post.labels.length ? await resolveTags(post.labels) : [];
+    const tagIds = post.labels.length ? await resolveTerms(post.labels, 'tags') : [];
+    // 소메뉴(카테고리) → WordPress categories. "대>소" 는 마지막(소분류)만 사용.
+    const catNames = (post.category || []).map((c) => c.split('>').pop().trim()).filter(Boolean);
+    const catIds = catNames.length ? await resolveTerms(catNames, 'categories') : [];
     const scheduled = post.publishAt && toRFC3339(post.publishAt);
     return {
       title: post.title,
@@ -33,6 +36,7 @@ export function createWordpressAdapter() {
       status: post.isDraft ? 'draft' : scheduled ? 'future' : 'publish',
       ...(scheduled ? { date: toRFC3339(post.publishAt) } : {}),
       ...(tagIds.length ? { tags: tagIds } : {}),
+      ...(catIds.length ? { categories: catIds } : {}),
     };
   }
 
@@ -43,7 +47,7 @@ export function createWordpressAdapter() {
     contentFormat: 'html',
     capabilities: { canonical: false, update: true, draft: true, schedule: true },
     requiredEnv: ['WP_URL', 'WP_USER', 'WP_APP_PASSWORD'],
-    hashPayload: (post) => JSON.stringify({ t: post.title, l: post.labels, d: post.isDraft, h: post.html, p: post.publishAt }),
+    hashPayload: (post) => JSON.stringify({ t: post.title, l: post.labels, c: post.category, d: post.isDraft, h: post.html, p: post.publishAt }),
 
     async publish(post) {
       const res = await apiFetch(api('/posts'), { method: 'POST', headers, body: JSON.stringify(await body(post)) }, { platform: 'wordpress' });

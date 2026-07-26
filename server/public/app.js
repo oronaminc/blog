@@ -197,6 +197,7 @@ async function openPost(file) {
   $('editor-inner').hidden = false;
   $('f-title').value = p.data.title || '';
   $('f-date').value = p.data.date || '';
+  $('f-category').value = Array.isArray(p.data.category) ? p.data.category.join(', ') : p.data.category || '';
   $('f-labels').value = Array.isArray(p.data.labels) ? p.data.labels.join(', ') : p.data.labels || '';
   $('f-publishat').value = p.data.publishAt || '';
   $('f-draft').checked = p.data.draft === true;
@@ -213,10 +214,12 @@ async function openPost(file) {
 
 function collect() {
   const labels = $('f-labels').value.split(',').map((s) => s.trim()).filter(Boolean);
+  const category = $('f-category').value.split(',').map((s) => s.trim()).filter(Boolean);
   return {
     data: {
       title: $('f-title').value || '제목 없음',
       labels,
+      ...(category.length ? { category } : {}),
       draft: $('f-draft').checked,
       date: $('f-date').value || undefined,
       publishAt: $('f-publishat').value || undefined,
@@ -417,7 +420,7 @@ function bind() {
   $('bulk-delete').onclick = bulkDelete;
   $('bulk-clear').onclick = clearSelection;
 
-  for (const id of ['f-title', 'f-date', 'f-publishat', 'f-content']) $(id).addEventListener('input', onEdit);
+  for (const id of ['f-title', 'f-date', 'f-category', 'f-publishat', 'f-content']) $(id).addEventListener('input', onEdit);
   $('f-draft').addEventListener('change', onEdit);
 
   // 목록: 체크박스=선택, 나머지=열기

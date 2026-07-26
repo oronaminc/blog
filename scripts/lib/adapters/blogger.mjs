@@ -17,10 +17,13 @@ export function createBloggerAdapter() {
   }
 
   function body(post) {
+    // Blogger 는 별도 카테고리가 없어 소메뉴(category)를 라벨로 편입(중복 제거).
+    const cats = (post.category || []).map((c) => c.split('>').pop().trim()).filter(Boolean);
+    const labels = [...new Set([...cats, ...post.labels])];
     return {
       title: post.title,
       content: post.html,
-      ...(post.labels.length ? { labels: post.labels } : {}),
+      ...(labels.length ? { labels } : {}),
       ...(post.publishAt && toRFC3339(post.publishAt) ? { published: toRFC3339(post.publishAt) } : {}),
     };
   }

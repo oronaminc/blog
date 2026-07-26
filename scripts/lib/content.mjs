@@ -56,6 +56,10 @@ export function buildPost(file, data, rawContent) {
   const labels = normalizeLabels(data.labels);
   const isDraft = data.draft === true;
   const publishAt = data.publishAt ? String(data.publishAt) : null;
+  // 소메뉴(블로그 카테고리/분류). 대>소 계층이면 "대>소" 또는 배열 지원.
+  const category = data.category != null
+    ? (Array.isArray(data.category) ? data.category.map(String) : [String(data.category)])
+    : [];
   // 국가별 배포용(지금은 한국어만; 구조만 대비)
   const locale = data.locale || 'ko-KR';
   const country = data.country || 'KR';
@@ -68,7 +72,7 @@ export function buildPost(file, data, rawContent) {
   const sourceHash = hashOf(JSON.stringify({ title, labels, isDraft, publishAt, markdown }));
 
   return {
-    file, title, labels, isDraft, publishAt,
+    file, title, labels, isDraft, publishAt, category,
     locale, country, groupId, canonicalUrl,
     markdown, html, coverImageUrl, sourceHash,
   };
