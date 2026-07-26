@@ -64,7 +64,7 @@ export async function getStatuses() {
     out.push({
       file, title: post.title, labels: post.labels, isDraft: post.isDraft,
       publishAt: post.publishAt, date: data.date ? String(data.date) : null,
-      locale: post.locale, country: post.country,
+      locale: post.locale, country: post.country, category: post.category,
       status, url, targets,
     });
   }

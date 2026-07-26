@@ -5,6 +5,7 @@ const state = {
   dirty: false,
   search: '',
   statusFilter: null,
+  categoryFilter: null,
   labels: [],
   selection: new Set(),
   drift: new Set(),
@@ -96,12 +97,37 @@ function renderFilters() {
   for (const s of ['local', 'modified', 'draft', 'scheduled', 'published']) {
     if (counts[s]) el.appendChild(mk(s, BADGE[s], counts[s], state.statusFilter === s));
   }
+  renderCatFilters();
+}
+
+// 소메뉴(카테고리)별 필터 칩
+function renderCatFilters() {
+  const counts = {};
+  for (const p of state.posts) for (const c of (p.category || [])) counts[c] = (counts[c] || 0) + 1;
+  const cats = Object.keys(counts).sort((a, b) => counts[b] - counts[a]);
+  state.categories = cats;
+  // 에디터 소메뉴 입력의 자동완성 목록 채우기
+  const dl = $('category-list');
+  if (dl) dl.innerHTML = cats.map((c) => `<option value="${escapeHtml(c)}"></option>`).join('');
+  const el = $('cat-filters');
+  el.innerHTML = '';
+  if (!cats.length) return;
+  const mk = (key, label, n, active) => {
+    const c = document.createElement('span');
+    c.className = 'chip cat' + (active ? ' active' : '');
+    c.textContent = n == null ? label : `${label} ${n}`;
+    c.onclick = () => { state.categoryFilter = state.categoryFilter === key ? null : key; renderFilters(); renderList(); };
+    return c;
+  };
+  el.appendChild(mk(null, '소메뉴 전체', null, state.categoryFilter === null));
+  for (const c of cats) el.appendChild(mk(c, c, counts[c], state.categoryFilter === c));
 }
 
 function filteredPosts() {
   const q = state.search.toLowerCase();
   return state.posts.filter((p) => {
     if (state.statusFilter && p.status !== state.statusFilter) return false;
+    if (state.categoryFilter && !(p.category || []).includes(state.categoryFilter)) return false;
     if (q && !(p.title + ' ' + p.labels.join(' ')).toLowerCase().includes(q)) return false;
     return true;
   });
@@ -120,12 +146,14 @@ function renderList() {
     const badge = drift
       ? '<span class="badge drift">원격변경</span>'
       : `<span class="badge ${p.status}">${BADGE[p.status]}</span>`;
+    const cat = (p.category || []).length ? `<span class="pi-cat">${escapeHtml(p.category.join('>'))}</span>` : '';
     const labels = p.labels.length ? `<span class="pi-labels">${escapeHtml(p.labels.join(', '))}</span>` : '';
     return `<li class="post-item ${state.current?.file === p.file ? 'active' : ''} ${sel ? 'sel' : ''}" data-file="${escapeHtml(p.file)}">
       <input type="checkbox" class="pi-check" data-file="${escapeHtml(p.file)}" ${sel ? 'checked' : ''} />
       <div class="pi-main">
         <div class="pi-title">${escapeHtml(p.title)}</div>
-        <div class="pi-meta">${badge}<span>${p.date || ''}</span>${labels}</div>
+        <div class="pi-meta">${badge}${cat}<span>${p.date || ''}</span></div>
+        ${labels ? `<div class="pi-meta">${labels}</div>` : ''}
       </div></li>`;
   }).join('');
 }

@@ -31,6 +31,7 @@
           <input id="search" class="search" placeholder="제목·라벨 검색" />
         </div>
         <div id="filters" class="filters"></div>
+        <div id="cat-filters" class="filters cat-filters"></div>
 
         <div id="bulkbar" class="bulkbar" hidden>
           <span id="bulk-count" class="bulk-count">0개 선택</span>
@@ -50,7 +51,7 @@
             <input id="f-title" class="f-title" placeholder="제목을 입력하세요" />
             <div class="meta-row">
               <label class="fld">날짜<input id="f-date" type="date" /></label>
-              <label class="fld" title="블로그 소메뉴/카테고리 (대>소 가능, 예: 경제>재테크)">소메뉴<input id="f-category" autocomplete="off" placeholder="예: 경제" /></label>
+              <label class="fld" title="블로그 소메뉴/카테고리 — 목록에서 선택하거나 직접 입력 (대>소 가능, 예: 경제>재테크)">소메뉴<input id="f-category" list="category-list" autocomplete="off" placeholder="선택 또는 입력" /><datalist id="category-list"></datalist></label>
               <div class="fld grow labels-field">
                 라벨
                 <input id="f-labels" autocomplete="off" placeholder="쉼표로 구분 (예: 개발, 일상)" />
