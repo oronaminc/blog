@@ -1,5 +1,7 @@
 ---
 title: "인도가 짐바브웨전에 주전을 안 보내는 이유"
+thumb_title: "주전은 왜 빠졌나"
+thumb_subtitle: "인도 크리켓의 계산된 선택"
 category: "스포츠"
 labels: ["크리켓", "인도", "짐바브웨", "국제 스포츠", "ICC"]
 draft: true

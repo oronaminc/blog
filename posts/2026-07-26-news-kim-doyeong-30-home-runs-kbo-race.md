@@ -1,5 +1,7 @@
 ---
 title: "타자들의 홈런이 급증하는 데는 공만의 문제가 아니다"
+thumb_title: "홈런 폭증의 진짜 원인"
+thumb_subtitle: "공만의 문제가 아니다"
 category: "스포츠"
 labels: ["KBO", "김도영", "홈런왕", "KIA타이거즈", "프로야구"]
 draft: true

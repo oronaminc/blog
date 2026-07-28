@@ -1,5 +1,7 @@
 ---
 title: "'CCTV 삭제' 논란이 반복되는 진짜 이유"
+thumb_title: "'CCTV 삭제' 반복"
+thumb_subtitle: "논란이 되풀이되는 구조"
 category: "연예"
 labels: ["CCTV", "영상증거", "개인정보보호법", "증거보존", "연예뉴스"]
 draft: true

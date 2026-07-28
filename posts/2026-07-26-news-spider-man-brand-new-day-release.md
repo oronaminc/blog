@@ -1,5 +1,7 @@
 ---
 title: "마블이 스파이더맨을 다시 '리셋'하는 계산"
+thumb_title: "또 리셋되는 스파이더맨"
+thumb_subtitle: "마블의 계산된 재시작"
 category: "연예"
 labels: ["스파이더맨", "마블", "브랜드뉴데이", "톰홀랜드", "MCU"]
 draft: true

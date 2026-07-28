@@ -1,5 +1,7 @@
 ---
 title: "장마 끝나면 도심 모기가 급증하는 구조"
+thumb_title: "장마 끝, 모기 급증"
+thumb_subtitle: "고인 물이 부른 방제 비상"
 category: "라이프"
 labels: ["모기", "방제", "장마철", "감염병 예방", "도시 방역"]
 draft: true

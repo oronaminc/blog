@@ -1,5 +1,7 @@
 ---
 title: "엔저가 길어질수록 세계 경제가 조용히 위험해지는 구조"
+thumb_title: "엔저가 부른 시한폭탄"
+thumb_subtitle: "조용히 커지는 세계경제 리스크"
 category: "경제"
 labels: ["엔화", "엔 캐리 트레이드", "일본은행", "환율", "세계경제"]
 draft: true

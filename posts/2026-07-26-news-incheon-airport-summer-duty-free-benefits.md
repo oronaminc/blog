@@ -1,5 +1,7 @@
 ---
 title: "면세점이 '최대 20% 할인'을 계속 외칠 수 있는 이유"
+thumb_title: "면세점 '20% 할인'"
+thumb_subtitle: "계속 외칠 수 있는 구조의 비밀"
 category: "라이프"
 labels: ["면세점", "인천공항", "여름휴가", "쇼핑혜택", "환율"]
 draft: true

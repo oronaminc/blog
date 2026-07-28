@@ -1,5 +1,7 @@
 ---
 title: "부동산 논쟁이 '사고파는' 얘기만 하는 사이 빠지는 것"
+thumb_title: "임차인이 빠진 논쟁"
+thumb_subtitle: "'사고파는' 얘기만 하는 부동산"
 category: "경제"
 labels: ["전월세", "임차인", "주거정책", "전세사기", "월세화"]
 draft: true

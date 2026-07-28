@@ -1,5 +1,7 @@
 ---
 title: "원화가 약한데 수출이 살아나지 않는 이유"
+thumb_title: "원화 약한데 왜?"
+thumb_subtitle: "수출이 살아나지 않는 이유"
 category: "경제"
 labels: ["환율", "원달러", "통화정책", "연준", "일본은행"]
 draft: true

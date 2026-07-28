@@ -48,7 +48,13 @@
       <main class="editor">
         <div class="editor-inner" id="editor-inner" hidden>
           <div class="meta">
-            <input id="f-title" class="f-title" placeholder="제목을 입력하세요" />
+            <input id="f-title" class="f-title" placeholder="블로그 제목" />
+            <div class="thumb-row" title="썸네일 이미지 제작용 카피 (블로그 제목과 별개)">
+              <span class="thumb-tag">썸네일</span>
+              <input id="f-thumb-title" class="f-thumb-title" placeholder="썸네일 제목 (짧은 훅)" />
+              <input id="f-thumb-subtitle" class="f-thumb-subtitle" placeholder="썸네일 소제목 (보조 한 줄)" />
+              <button id="btn-thumb-copy" class="btn btn-sm btn-ghost" title="썸네일 제목+소제목 복사">📋</button>
+            </div>
             <div class="meta-row">
               <label class="fld">날짜<input id="f-date" type="date" /></label>
               <label class="fld" title="블로그 소메뉴/카테고리 — 목록에서 선택하거나 직접 입력 (대>소 가능, 예: 경제>재테크)">소메뉴<input id="f-category" list="category-list" autocomplete="off" placeholder="선택 또는 입력" /><datalist id="category-list"></datalist></label>

@@ -1,5 +1,7 @@
 ---
 title: "냉동밥을 2주면 버리라는 말이 반은 틀린 이유"
+thumb_title: "냉동밥 2주설의 거짓"
+thumb_subtitle: "언제까지 먹어도 되나"
 category: "라이프"
 labels: ["냉동밥", "식품보관", "식중독예방", "주방상식", "밥"]
 draft: true

@@ -65,6 +65,7 @@ export async function getStatuses() {
       file, title: post.title, labels: post.labels, isDraft: post.isDraft,
       publishAt: post.publishAt, date: data.date ? String(data.date) : null,
       locale: post.locale, country: post.country, category: post.category,
+      thumbTitle: post.thumbTitle, thumbSubtitle: post.thumbSubtitle,
       status, url, targets,
     });
   }

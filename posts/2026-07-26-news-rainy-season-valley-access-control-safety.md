@@ -1,5 +1,7 @@
 ---
 title: "계곡 통제가 매년 '자유 침해' 논란을 부르는 이유"
+thumb_title: "계곡 통제의 딜레마"
+thumb_subtitle: "매년 '자유 침해' 논란인 이유"
 category: "트렌드"
 labels: ["장마", "계곡 안전", "출입통제", "재난안전", "물놀이"]
 draft: true

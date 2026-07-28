@@ -1,5 +1,7 @@
 ---
 title: "완성차가 갑자기 '구독'을 팔기 시작한 진짜 이유"
+thumb_title: "車를 '구독'한다"
+thumb_subtitle: "완성차가 소유 대신 이용을 파는 이유"
 category: "경제"
 labels: ["현대차", "플레오스", "SDV", "자동차 구독경제", "소프트웨어 중심 자동차"]
 draft: true

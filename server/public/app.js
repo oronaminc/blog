@@ -227,6 +227,8 @@ async function openPost(file) {
   state.dirty = false;
   $('editor-inner').hidden = false;
   $('f-title').value = p.data.title || '';
+  $('f-thumb-title').value = p.data.thumb_title || '';
+  $('f-thumb-subtitle').value = p.data.thumb_subtitle || '';
   $('f-date').value = p.data.date || '';
   $('f-category').value = Array.isArray(p.data.category) ? p.data.category.join(', ') : p.data.category || '';
   $('f-labels').value = Array.isArray(p.data.labels) ? p.data.labels.join(', ') : p.data.labels || '';
@@ -246,9 +248,13 @@ async function openPost(file) {
 function collect() {
   const labels = $('f-labels').value.split(',').map((s) => s.trim()).filter(Boolean);
   const category = $('f-category').value.split(',').map((s) => s.trim()).filter(Boolean);
+  const thumbTitle = $('f-thumb-title').value.trim();
+  const thumbSubtitle = $('f-thumb-subtitle').value.trim();
   return {
     data: {
       title: $('f-title').value || '제목 없음',
+      ...(thumbTitle ? { thumb_title: thumbTitle } : {}),
+      ...(thumbSubtitle ? { thumb_subtitle: thumbSubtitle } : {}),
       labels,
       ...(category.length ? { category } : {}),
       draft: $('f-draft').checked,
@@ -465,7 +471,13 @@ function bind() {
   $('bulk-delete').onclick = bulkDelete;
   $('bulk-clear').onclick = clearSelection;
 
-  for (const id of ['f-title', 'f-date', 'f-category', 'f-publishat', 'f-content']) $(id).addEventListener('input', onEdit);
+  for (const id of ['f-title', 'f-thumb-title', 'f-thumb-subtitle', 'f-date', 'f-category', 'f-publishat', 'f-content']) $(id).addEventListener('input', onEdit);
+  $('btn-thumb-copy').onclick = async () => {
+    const t = $('f-thumb-title').value.trim(), s = $('f-thumb-subtitle').value.trim();
+    if (!t && !s) return toast('썸네일 카피가 비어있어요', 'err');
+    try { await navigator.clipboard.writeText(`${t}\n${s}`); toast('썸네일 카피 복사됨 ✓', 'ok'); }
+    catch (e) { toast('복사 실패: ' + e.message, 'err'); }
+  };
   $('f-draft').addEventListener('change', onEdit);
 
   // 목록: 체크박스=선택, 나머지=열기

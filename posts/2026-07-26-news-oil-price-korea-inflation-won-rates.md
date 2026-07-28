@@ -1,5 +1,7 @@
 ---
 title: "국제유가가 마트 가격표에 도착하는 경로"
+thumb_title: "유가→가격표 도착 시간"
+thumb_subtitle: "국제유가가 마트에 닿는 경로"
 category: "경제"
 labels: ["국제유가", "물가", "환율", "기준금리", "한국경제"]
 draft: true

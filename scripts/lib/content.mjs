@@ -60,6 +60,9 @@ export function buildPost(file, data, rawContent) {
   const category = data.category != null
     ? (Array.isArray(data.category) ? data.category.map(String) : [String(data.category)])
     : [];
+  // 썸네일 이미지용 카피(블로그 제목과 별개). 짧고 강한 훅.
+  const thumbTitle = data.thumb_title ? String(data.thumb_title) : '';
+  const thumbSubtitle = data.thumb_subtitle ? String(data.thumb_subtitle) : '';
   // 국가별 배포용(지금은 한국어만; 구조만 대비)
   const locale = data.locale || 'ko-KR';
   const country = data.country || 'KR';
@@ -73,6 +76,7 @@ export function buildPost(file, data, rawContent) {
 
   return {
     file, title, labels, isDraft, publishAt, category,
+    thumbTitle, thumbSubtitle,
     locale, country, groupId, canonicalUrl,
     markdown, html, coverImageUrl, sourceHash,
   };

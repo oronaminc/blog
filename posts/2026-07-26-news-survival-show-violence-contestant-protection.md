@@ -1,5 +1,7 @@
 ---
 title: "서바이벌 예능이 '독해질수록' 화제가 되는 구조"
+thumb_title: "독해질수록 화제"
+thumb_subtitle: "서바이벌 예능의 위험한 공식"
 category: "연예"
 labels: ["서바이벌예능", "피의게임X", "출연자보호", "방송윤리", "표준계약서"]
 draft: true
